@@ -141,8 +141,8 @@
   }
 
   /* ---- Drawer open/close ---- */
-  function openDrawer() { if (!drawer) return; drawer.classList.add("open"); drawer.setAttribute("aria-hidden", "false"); if (backdrop) backdrop.hidden = false; if (closeBtn) closeBtn.focus(); }
-  function closeDrawer() { if (!drawer) return; drawer.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); if (backdrop) backdrop.hidden = true; }
+  function openDrawer() { if (!drawer) return; drawer.classList.add("open"); drawer.setAttribute("aria-hidden", "false"); if (backdrop) backdrop.hidden = false; if (window.__ttkLockScroll) window.__ttkLockScroll(true); if (closeBtn) closeBtn.focus(); }
+  function closeDrawer() { if (!drawer) return; drawer.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); if (backdrop) backdrop.hidden = true; if (window.__ttkLockScroll) window.__ttkLockScroll(false); }
   if (fab) fab.addEventListener("click", openDrawer);
   if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
   if (backdrop) backdrop.addEventListener("click", closeDrawer);

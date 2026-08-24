@@ -44,12 +44,25 @@
         navToggle.setAttribute("aria-label", "Open menu");
       });
     });
+    // Tap the dimmed backdrop (the overlay surface itself) to close
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) {
+        overlay.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.setAttribute("aria-label", "Open menu");
+      }
+    });
   }
 
   /* ---- Scroll reveal (IntersectionObserver) ---- */
   var reveals = document.querySelectorAll("[data-reveal]");
   var reduce = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Safety net: if JS/observer is slow, never leave content stuck invisible.
+  setTimeout(function () {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  }, 1200);
 
   if (reduce || !("IntersectionObserver" in window)) {
     reveals.forEach(function (el) { el.classList.add("in"); });
@@ -64,6 +77,11 @@
     }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
     reveals.forEach(function (el) { io.observe(el); });
   }
+
+  /* ---- Body scroll lock (used by cart drawer) ---- */
+  window.__ttkLockScroll = function (on) {
+    document.body.style.overflow = on ? "hidden" : "";
+  };
 
   /* ---- Menu category filter (menu.html only) ---- */
   var filterBar = document.querySelector(".menu-filters");

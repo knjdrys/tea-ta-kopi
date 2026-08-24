@@ -390,6 +390,7 @@
   display: flex; flex-direction: column;
   transform: translateX(100%);
   transition: transform var(--dur) var(--ease);
+  overscroll-behavior: contain;
 }
 .cart-drawer.open .cart-drawer__panel { transform: translateX(0); }
 .cart-drawer__head {
@@ -463,4 +464,38 @@
   /* Phone-first: bigger touch targets + safe-area for the floating cart */
   .cart-fab { width: 62px; height: 62px; right: 0.9rem; bottom: calc(0.9rem + env(safe-area-inset-bottom, 0px)); }
   .size-btn, .add-btn { padding-top: 0.6rem; padding-bottom: 0.6rem; }
+}
+
+/* ---------- Signature polish: fixed grain + hero load ---------- */
+/* Fixed, pointer-events-none grain overlay (kills digital flatness; never on scrolling content) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+@media (prefers-reduced-transparency: reduce) {
+  body::after { display: none; }
+}
+
+/* Hero gentle fade-up on first paint (the page's one choreographed moment) */
+.hero__inner > * {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: heroIn 0.9s var(--ease) forwards;
+}
+.hero__inner > *:nth-child(1) { animation-delay: 0.05s; }
+.hero__inner > *:nth-child(2) { animation-delay: 0.14s; }
+.hero__inner > *:nth-child(3) { animation-delay: 0.23s; }
+.hero__inner > *:nth-child(4) { animation-delay: 0.32s; }
+@keyframes heroIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__inner > * { opacity: 1; transform: none; animation: none; }
 }
