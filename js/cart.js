@@ -70,7 +70,12 @@
     var size = btn.getAttribute("data-size") || "";
     var price = parseInt(btn.getAttribute("data-price"), 10);
     var cat = btn.getAttribute("data-cat") || "";
-    cart.push({ name: name, size: size, price: price, cat: cat });
+    var existing = null;
+    for (var i = 0; i < cart.length; i++) {
+      if (cart[i].name === name && cart[i].size === size) { existing = cart[i]; break; }
+    }
+    if (existing) { existing.qty = (existing.qty || 1) + 1; }   // same item -> bump quantity, not a new row
+    else { cart.push({ name: name, size: size, price: price, cat: cat, qty: 1 }); }
     save();
     ensureFab();      // reveal cart first so we can measure its position
     render(true);
@@ -85,7 +90,7 @@
 
   /* ---- Render ---- */
   function render(animate) {
-    var count = cart.length;
+    var count = cart.reduce(function (s, it) { return s + (it.qty || 1); }, 0);  // total pieces (for badge)
     if (badge) badge.textContent = count;
     if (fab) fab.hidden = count === 0;
 
@@ -96,30 +101,42 @@
       var rows = "";
       cart.forEach(function (it, i) {
         var label = it.name + (it.size ? " (" + it.size + ")" : "");
+        var qty = it.qty || 1;
         rows +=
           '<div class="cart-row">' +
+            '<button class="cart-row__step" type="button" data-act="dec" data-i="' + i + '" aria-label="Decrease ' + escapeHtml(label) + '">&minus;</button>' +
             '<span class="cart-row__name">' + escapeHtml(label) + "</span>" +
-            '<span class="cart-row__price">P ' + it.price + "</span>" +
+            '<span class="cart-row__qty">x' + qty + "</span>" +
+            '<span class="cart-row__price">P ' + (it.price * qty) + "</span>" +
+            '<button class="cart-row__step" type="button" data-act="inc" data-i="' + i + '" aria-label="Increase ' + escapeHtml(label) + '">+</button>' +
             '<button class="cart-row__del" type="button" data-i="' + i + '" aria-label="Remove ' + escapeHtml(label) + '">&times;</button>' +
           "</div>";
       });
       body.innerHTML = rows;
     }
 
-    var total = cart.reduce(function (s, it) { return s + it.price; }, 0);
+    var total = cart.reduce(function (s, it) { return s + it.price * (it.qty || 1); }, 0);
     if (totalEl) totalEl.textContent = "P " + total;
     if (sendBtn) sendBtn.href = buildMessengerLink(total);
   }
 
-  /* ---- Remove row ---- */
+  /* ---- Qty stepper in the drawer ---- */
   if (body) {
     body.addEventListener("click", function (e) {
+      var step = e.target.closest(".cart-row__step");
+      if (step) {
+        var i = parseInt(step.getAttribute("data-i"), 10);
+        var act = step.getAttribute("data-act");
+        if (act === "inc") { cart[i].qty = (cart[i].qty || 1) + 1; }
+        else { cart[i].qty = (cart[i].qty || 1) - 1; if (cart[i].qty <= 0) cart.splice(i, 1); }
+        save(); render(); return;
+      }
       var del = e.target.closest(".cart-row__del");
-      if (!del) return;
-      var i = parseInt(del.getAttribute("data-i"), 10);
-      cart.splice(i, 1);
-      save();
-      render();
+      if (del) {
+        var j = parseInt(del.getAttribute("data-i"), 10);
+        cart.splice(j, 1);
+        save(); render(); return;
+      }
     });
   }
 
@@ -213,7 +230,7 @@
   }
 
   /* ---- Helpers ---- */
-  function load() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; } }
+  function load() { try { var c = JSON.parse(localStorage.getItem(STORE_KEY)) || []; c.forEach(function (it) { if (!it.qty) it.qty = 1; }); return c; } catch (e) { return []; } }
   function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(cart)); } catch (e) {} }
   function ensureFab() { if (fab && cart.length) fab.hidden = false; }
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
