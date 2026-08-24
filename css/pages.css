@@ -265,6 +265,13 @@
   transition: transform var(--dur) var(--ease);
 }
 .cart-fab:hover { transform: translateY(-3px) scale(1.04); }
+.cart-fab--bump { animation: cartBump 0.45s var(--ease); }
+@keyframes cartBump {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.22) rotate(-6deg); }
+  60% { transform: scale(0.94) rotate(4deg); }
+  100% { transform: scale(1); }
+}
 .cart-fab__badge {
   position: absolute;
   top: -2px; right: -2px;
@@ -278,6 +285,47 @@
   font-size: 0.72rem;
   display: grid; place-items: center;
   border: 2px solid var(--bg);
+  transition: transform 0.25s var(--ease);
+}
+.cart-fab--bump .cart-fab__badge { animation: badgePop 0.45s var(--ease); }
+@keyframes badgePop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+/* ---- Fly-to-cart token ---- */
+.cart-fly {
+  position: fixed;
+  z-index: 200;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.8rem;
+  box-shadow: var(--shadow-md);
+  pointer-events: none;
+  opacity: 1;
+  offset-rotate: 0deg;
+  will-change: offset-distance, transform, opacity;
+}
+.cart-fly--go {
+  animation: flyArc 0.72s var(--ease) forwards, flyShrink 0.72s var(--ease) forwards;
+}
+@keyframes flyArc {
+  0% { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
+}
+@keyframes flyShrink {
+  0% { transform: scale(1); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: scale(0.35); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cart-fly, .cart-fab--bump { animation: none !important; }
 }
 
 /* ---- Cart drawer ---- */

@@ -72,9 +72,10 @@
     var cat = btn.getAttribute("data-cat") || "";
     cart.push({ name: name, size: size, price: price, cat: cat });
     save();
+    ensureFab();      // reveal cart first so we can measure its position
     render(true);
     pulse(btn);
-    ensureFab();
+    flyToCart(btn);
   }
 
   document.addEventListener("click", function (e) {
@@ -164,6 +165,51 @@
     lines.push("Pickup time: ");
     var text = encodeURIComponent(lines.join("\n"));
     return "https://m.me/" + MESSENGER_ID + "?text=" + text;
+  }
+
+  /* ---- Fly-to-cart animation (the satisfying part) ---- */
+  var SUPPORTS_OFFSET = (function () {
+    try { return window.CSS && CSS.supports && CSS.supports("offset-path", 'path("M0 0 L1 1")'); }
+    catch (e) { return false; }
+  })();
+
+  function flyToCart(btn) {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!fab || fab.hidden || !SUPPORTS_OFFSET || reduce) { bumpCart(); return; }
+
+    var start = btn.getBoundingClientRect();
+    var end = fab.getBoundingClientRect();
+    var sx = start.left + start.width / 2;
+    var sy = start.top + start.height / 2;
+    var ex = end.left + end.width / 2;
+    var ey = end.top + end.height / 2;
+    // control point: above the midpoint so the path arcs up and over
+    var cx = (sx + ex) / 2;
+    var cy = Math.min(sy, ey) - Math.max(90, Math.abs(ex - sx) * 0.25);
+
+    var fly = document.createElement("span");
+    fly.className = "cart-fly";
+    fly.textContent = btn.getAttribute("data-size") ? btn.getAttribute("data-size") : "+";
+    fly.style.offsetPath = 'path("M ' + sx + " " + sy + " Q " + cx + " " + cy + " " + ex + " " + ey + '")';
+    document.body.appendChild(fly);
+
+    requestAnimationFrame(function () { fly.classList.add("cart-fly--go"); });
+
+    var done = false;
+    function finish() {
+      if (done) return; done = true;
+      if (fly.parentNode) fly.remove();
+      bumpCart();
+    }
+    fly.addEventListener("animationend", finish);
+    setTimeout(finish, 900); // safety net
+  }
+
+  function bumpCart() {
+    if (!fab) return;
+    fab.classList.remove("cart-fab--bump");
+    void fab.offsetWidth;
+    fab.classList.add("cart-fab--bump");
   }
 
   /* ---- Helpers ---- */
