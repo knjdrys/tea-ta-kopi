@@ -153,8 +153,8 @@
   padding-bottom: 0.6rem;
   border-bottom: 2px solid var(--line);
 }
-.cat__title h3 { font-size: clamp(1.3rem, 3vw, 1.9rem); }
-.cat__price-note { font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-soft); margin-left: auto; white-space: nowrap; }
+.cat__title h3, .cat__title .cat__h { font-size: clamp(1.3rem, 3vw, 1.9rem); }
+.cat__price-note { font-family: var(--font-mono); font-size: 0.82rem; color: var(--ink-soft); margin-left: auto; white-space: nowrap; }
 
 /* Category filters - horizontal scroll strip, last option always visible */
 .menu-filters {
@@ -453,7 +453,7 @@
   .item__price { flex: 0 0 auto; }
   .item__add { width: 100%; justify-content: flex-start; }
   .cat__title { flex-wrap: wrap; }
-  .cat__price-note { margin-left: 0; font-size: 0.72rem; white-space: normal; }
+  .cat__price-note { margin-left: 0; font-size: 0.78rem; white-space: normal; }
   .menu-filters { top: calc(var(--nav-h) + 0.5rem); }
   /* Phone-first: bigger touch targets + safe-area for the floating cart */
   .cart-fab { width: 62px; height: 62px; right: 0.9rem; bottom: calc(0.9rem + env(safe-area-inset-bottom, 0px)); }

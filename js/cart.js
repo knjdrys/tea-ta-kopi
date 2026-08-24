@@ -74,14 +74,21 @@
     for (var i = 0; i < cart.length; i++) {
       if (cart[i].name === name && cart[i].size === size) { existing = cart[i]; break; }
     }
-    if (existing) { existing.qty = (existing.qty || 1) + 1; }   // same item -> bump quantity, not a new row
+    var merged = false;
+    if (existing) { existing.qty = (existing.qty || 1) + 1; merged = true; }   // same item -> bump quantity, not a new row
     else { cart.push({ name: name, size: size, price: price, cat: cat, qty: 1 }); }
     save();
     ensureFab();      // reveal cart first so we can measure its position
     render(true);
     pulse(btn);
     if (window.__ttkSound) window.__ttkSound.pop();
-    showToast(name + (size ? " (" + size + ")" : "") + " added", "P " + price);
+    if (merged) {
+      // haptic-style double-bump + confirm toast so the merge reads clearly
+      doubleBump();
+      showToast(name + (size ? " (" + size + ")" : "") + " x" + existing.qty, "P " + (price * existing.qty));
+    } else {
+      showToast(name + (size ? " (" + size + ")" : "") + " added", "P " + price);
+    }
     flyToCart(btn);
   }
 
@@ -169,6 +176,14 @@
     cart = []; save(); render();
   });
 
+  /* ---- Send order: confirm with sound + toast, then open Messenger ---- */
+  if (sendBtn) {
+    sendBtn.addEventListener("click", function () {
+      if (window.__ttkSound) window.__ttkSound.pop();
+      showToast("Opening Messenger", "Your order is ready to send");
+    });
+  }
+
   /* ---- Build Messenger prefill link ---- */
   function buildMessengerLink(total) {
     var lines = ["Hi Tea-Ta Kopi! I'd like to order:"];
@@ -234,6 +249,19 @@
     fab.classList.remove("cart-fab--bump");
     void fab.offsetWidth;
     fab.classList.add("cart-fab--bump");
+  }
+
+  // haptic-style double bump used when an item merges into an existing row
+  function doubleBump() {
+    if (!fab) return;
+    fab.classList.remove("cart-fab--bump");
+    void fab.offsetWidth;
+    fab.classList.add("cart-fab--bump");
+    setTimeout(function () {
+      fab.classList.remove("cart-fab--bump");
+      void fab.offsetWidth;
+      fab.classList.add("cart-fab--bump");
+    }, 130);
   }
 
   /* ---- Helpers ---- */
