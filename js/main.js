@@ -65,6 +65,28 @@
     reveals.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---- Menu category filter (menu.html only) ---- */
+  var filterBar = document.querySelector(".menu-filters");
+  if (filterBar) {
+    var pills = filterBar.querySelectorAll(".filter-pill");
+    var cats = document.querySelectorAll(".cat[data-category]");
+    filterBar.addEventListener("click", function (e) {
+      var pill = e.target.closest(".filter-pill");
+      if (!pill) return;
+      pills.forEach(function (p) {
+        var on = p === pill;
+        p.classList.toggle("is-active", on);
+        p.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      var filter = pill.getAttribute("data-filter");
+      cats.forEach(function (cat) {
+        var match = filter === "all" || cat.getAttribute("data-category") === filter;
+        cat.style.display = match ? "" : "none";
+        if (match) cat.classList.add("in"); // reveal even if not yet scrolled into view
+      });
+    });
+  }
+
   /* ---- PWA service worker (offline + installable) ---- */
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
