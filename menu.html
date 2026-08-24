@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#B0431C" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315110C'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' fill='%23D9744E' transform='rotate(-20 16 16)'/%3E%3Cpath d='M16 7 Q16 16 16 25' stroke='%2315110C' stroke-width='1.6' fill='none'/%3E%3C/svg%3E" />
+  <title>Menu - Tea-Ta Kopi</title>
+  <meta name="description" content="Tea-Ta Kopi full menu: iced coffee, milk tea, shakes, fruit soda, non-coffee, fruit tea, yakult series and add-ons, with prices in pesos. Dolores, Capas, Tarlac." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="nav-wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__brand" href="index.html">
+        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="34" height="34" />
+        <span>Tea-Ta Kopi</span>
+      </a>
+      <div class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="menu.html" class="is-active">Menu</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Visit</a>
+      </div>
+      <div class="nav__right">
+        <button class="btn btn--accent" id="nav-order-btn" type="button">
+          Message us to order
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+        </button>
+        <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay"><span></span></button>
+      </div>
+    </nav>
+  </div>
+  <div class="nav__overlay" id="nav-overlay">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Visit</a>
+    <button class="btn btn--accent" id="nav-order-btn-overlay" type="button" style="align-self:flex-start;margin-top:1rem;">Message us to order</button>
+  </div>
+
+  <main id="main">
+    <section class="menu-hero container">
+      <h1 data-reveal>The menu</h1>
+      <p class="lede" style="margin:0.75rem auto 0;" data-reveal>Tea-Ta is short for "A Sip of Tita's Warm Embrace". A wide menu of coffee, milk tea and snacks in Dolores, Capas, Tarlac. Tap any drink to add it to your order.</p>
+      <div style="margin-top:1.5rem;" data-reveal>
+        <button class="btn btn--accent" id="hero-order-btn" type="button">
+          Message us to order
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <div class="container" style="padding-bottom:var(--space-5);">
+
+      <!-- ICED COFFEE -->
+      <h2 class="sr-only">Menu categories</h2>
+    <section class="cat" aria-labelledby="cat-coffee" data-reveal>
+        <div class="cat__title"><h3 id="cat-coffee">Iced Coffee</h3><span class="cat__price-note">Medium 16oz &middot; P 70</span></div>
+        <div class="items">
+          <div class="item"><span class="item__name">Iced Americano</span><span class="item__price">P 70</span><div class="item__add"><button class="add-btn" type="button" data-name="Iced Americano" data-size="M" data-price="70" data-cat="Iced Coffee">+ Add</button></div></div>
+          <div class="item"><span class="item__name">Caramel Macchiato</span><span class="item__price">P 70</span><div class="item__add"><button class="add-btn" type="button" data-name="Caramel Macchiato" data-size="M" data-price="70" data-cat="Iced Coffee">+ Add</button></div></div>
+          <div class="item"><span class="item__name">Spanish Latte</span><span class="item__price">P 70</span><div class="item__add"><button class="add-btn" type="button" data-name="Spanish Latte" data-size="M" data-price="70" data-cat="Iced Coffee">+ Add</button></div></div>
+          <div class="item"><span class="item__name">Mocha</span><span class="item__price">P 70</span><div class="item__add"><button class="add-btn" type="button" data-name="Mocha" data-size="M" data-price="70" data-cat="Iced Coffee">+ Add</button></div></div>
+          <div class="item"><span class="item__name">Cappuccino</span><span class="item__price">P 70</span><div class="item__add"><button class="add-btn" type="button" data-name="Cappuccino" data-size="M" data-price="70" data-cat="Iced Coffee">+ Add</button></div></div>
+          <div class="item"><span class="item__name">Dirty Matcha</span><span class="item__price">P 70</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="add-btn" type="button" data-name="Dirty Matcha" data-size="M" data-price="70" data-cat="Iced Coffee">+ Add</button></div></div>
+        </div>
+      </section>
+
+      <!-- MILK TEA -->
+      <section class="cat" aria-labelledby="cat-mt" data-reveal>
+        <div class="cat__title"><h3 id="cat-mt">Milk Tea</h3><span class="cat__price-note">M 16oz P 50 &middot; L 22oz P 60</span></div>
+        <div class="items">
+          <div class="item"><span class="item__name">Wintermelon</span><span class="item__price">P 50</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Wintermelon" data-size="M" data-price="50" data-cat="Milk Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Wintermelon" data-size="L" data-price="60" data-cat="Milk Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Okinawa</span><span class="item__price">P 50</span><div class="item__add"><button class="size-btn" type="button" data-name="Okinawa" data-size="M" data-price="50" data-cat="Milk Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Okinawa" data-size="L" data-price="60" data-cat="Milk Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Dark Choco</span><span class="item__price">P 50</span><div class="item__add"><button class="size-btn" type="button" data-name="Dark Choco" data-size="M" data-price="50" data-cat="Milk Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Dark Choco" data-size="L" data-price="60" data-cat="Milk Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Taro</span><span class="item__price">P 50</span><div class="item__add"><button class="size-btn" type="button" data-name="Taro" data-size="M" data-price="50" data-cat="Milk Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Taro" data-size="L" data-price="60" data-cat="Milk Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Matcha</span><span class="item__price">P 50</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Matcha" data-size="M" data-price="50" data-cat="Milk Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Matcha" data-size="L" data-price="60" data-cat="Milk Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Cookies N Cream</span><span class="item__price">P 50</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Cookies N Cream" data-size="M" data-price="50" data-cat="Milk Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Cookies N Cream" data-size="L" data-price="60" data-cat="Milk Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Salted Caramel</span><span class="item__price">P 50</span><div class="item__add"><button class="size-btn" type="button" data-name="Salted Caramel" data-size="M" data-price="50" data-cat="Milk Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Salted Caramel" data-size="L" data-price="60" data-cat="Milk Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Tiger Sugar</span><span class="item__price">P 50</span><div class="item__add"><button class="size-btn" type="button" data-name="Tiger Sugar" data-size="M" data-price="50" data-cat="Milk Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Tiger Sugar" data-size="L" data-price="60" data-cat="Milk Tea">L&middot;P60</button></div></div>
+        </div>
+      </section>
+
+      <!-- SHAKE -->
+      <section class="cat" aria-labelledby="cat-shake" data-reveal>
+        <div class="cat__title"><h3 id="cat-shake">Shake</h3><span class="cat__price-note">S 12oz P 35 &middot; M 16oz P 45 &middot; L 22oz P 55</span></div>
+        <div class="items">
+          <div class="item"><span class="item__name">Choco Kisses</span><span class="item__price">P 35</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Choco Kisses" data-size="S" data-price="35" data-cat="Shake">S&middot;P35</button><button class="size-btn" type="button" data-name="Choco Kisses" data-size="M" data-price="45" data-cat="Shake">M&middot;P45</button><button class="size-btn" type="button" data-name="Choco Kisses" data-size="L" data-price="55" data-cat="Shake">L&middot;P55</button></div></div>
+          <div class="item"><span class="item__name">Strawberry</span><span class="item__price">P 35</span><div class="item__add"><button class="size-btn" type="button" data-name="Strawberry" data-size="S" data-price="35" data-cat="Shake">S&middot;P35</button><button class="size-btn" type="button" data-name="Strawberry" data-size="M" data-price="45" data-cat="Shake">M&middot;P45</button><button class="size-btn" type="button" data-name="Strawberry" data-size="L" data-price="55" data-cat="Shake">L&middot;P55</button></div></div>
+          <div class="item"><span class="item__name">Taro</span><span class="item__price">P 35</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Taro" data-size="S" data-price="35" data-cat="Shake">S&middot;P35</button><button class="size-btn" type="button" data-name="Taro" data-size="M" data-price="45" data-cat="Shake">M&middot;P45</button><button class="size-btn" type="button" data-name="Taro" data-size="L" data-price="55" data-cat="Shake">L&middot;P55</button></div></div>
+          <div class="item"><span class="item__name">Avocado</span><span class="item__price">P 35</span><div class="item__add"><button class="size-btn" type="button" data-name="Avocado" data-size="S" data-price="35" data-cat="Shake">S&middot;P35</button><button class="size-btn" type="button" data-name="Avocado" data-size="M" data-price="45" data-cat="Shake">M&middot;P45</button><button class="size-btn" type="button" data-name="Avocado" data-size="L" data-price="55" data-cat="Shake">L&middot;P55</button></div></div>
+          <div class="item"><span class="item__name">Cookies N Cream</span><span class="item__price">P 35</span><div class="item__add"><button class="size-btn" type="button" data-name="Cookies N Cream" data-size="S" data-price="35" data-cat="Shake">S&middot;P35</button><button class="size-btn" type="button" data-name="Cookies N Cream" data-size="M" data-price="45" data-cat="Shake">M&middot;P45</button><button class="size-btn" type="button" data-name="Cookies N Cream" data-size="L" data-price="55" data-cat="Shake">L&middot;P55</button></div></div>
+          <div class="item"><span class="item__name">Black Forest</span><span class="item__price">P 35</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Black Forest" data-size="S" data-price="35" data-cat="Shake">S&middot;P35</button><button class="size-btn" type="button" data-name="Black Forest" data-size="M" data-price="45" data-cat="Shake">M&middot;P45</button><button class="size-btn" type="button" data-name="Black Forest" data-size="L" data-price="55" data-cat="Shake">L&middot;P55</button></div></div>
+        </div>
+      </section>
+
+      <!-- FRUIT SODA -->
+      <section class="cat" aria-labelledby="cat-soda" data-reveal>
+        <div class="cat__title"><h3 id="cat-soda">Fruit Soda</h3><span class="cat__price-note">M 16oz P 39 &middot; L 22oz P 49</span></div>
+        <div class="items">
+          <div class="item"><span class="item__name">Green Apple Soda</span><span class="item__price">P 39</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Green Apple Soda" data-size="M" data-price="39" data-cat="Fruit Soda">M&middot;P39</button><button class="size-btn" type="button" data-name="Green Apple Soda" data-size="L" data-price="49" data-cat="Fruit Soda">L&middot;P49</button></div></div>
+          <div class="item"><span class="item__name">Strawberry Soda</span><span class="item__price">P 39</span><div class="item__add"><button class="size-btn" type="button" data-name="Strawberry Soda" data-size="M" data-price="39" data-cat="Fruit Soda">M&middot;P39</button><button class="size-btn" type="button" data-name="Strawberry Soda" data-size="L" data-price="49" data-cat="Fruit Soda">L&middot;P49</button></div></div>
+          <div class="item"><span class="item__name">Lychee Soda</span><span class="item__price">P 39</span><div class="item__add"><button class="size-btn" type="button" data-name="Lychee Soda" data-size="M" data-price="39" data-cat="Fruit Soda">M&middot;P39</button><button class="size-btn" type="button" data-name="Lychee Soda" data-size="L" data-price="49" data-cat="Fruit Soda">L&middot;P49</button></div></div>
+          <div class="item"><span class="item__name">Lemon Soda</span><span class="item__price">P 39</span><div class="item__add"><button class="size-btn" type="button" data-name="Lemon Soda" data-size="M" data-price="39" data-cat="Fruit Soda">M&middot;P39</button><button class="size-btn" type="button" data-name="Lemon Soda" data-size="L" data-price="49" data-cat="Fruit Soda">L&middot;P49</button></div></div>
+          <div class="item"><span class="item__name">Passion Fruit Soda</span><span class="item__price">P 39</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Passion Fruit Soda" data-size="M" data-price="39" data-cat="Fruit Soda">M&middot;P39</button><button class="size-btn" type="button" data-name="Passion Fruit Soda" data-size="L" data-price="49" data-cat="Fruit Soda">L&middot;P49</button></div></div>
+          <div class="item"><span class="item__name">Mango Soda</span><span class="item__price">P 39</span><div class="item__add"><button class="size-btn" type="button" data-name="Mango Soda" data-size="M" data-price="39" data-cat="Fruit Soda">M&middot;P39</button><button class="size-btn" type="button" data-name="Mango Soda" data-size="L" data-price="49" data-cat="Fruit Soda">L&middot;P49</button></div></div>
+          <div class="item"><span class="item__name">Grape Soda</span><span class="item__price">P 39</span><div class="item__add"><button class="size-btn" type="button" data-name="Grape Soda" data-size="M" data-price="39" data-cat="Fruit Soda">M&middot;P39</button><button class="size-btn" type="button" data-name="Grape Soda" data-size="L" data-price="49" data-cat="Fruit Soda">L&middot;P49</button></div></div>
+          <div class="item"><span class="item__name">Blueberry Soda</span><span class="item__price">P 39</span><div class="item__add"><button class="size-btn" type="button" data-name="Blueberry Soda" data-size="M" data-price="39" data-cat="Fruit Soda">M&middot;P39</button><button class="size-btn" type="button" data-name="Blueberry Soda" data-size="L" data-price="49" data-cat="Fruit Soda">L&middot;P49</button></div></div>
+        </div>
+      </section>
+
+      <!-- NON COFFEE -->
+      <section class="cat" aria-labelledby="cat-nc" data-reveal>
+        <div class="cat__title"><h3 id="cat-nc">Non Coffee</h3><span class="cat__price-note">M 16oz P 80 &middot; L 22oz P 100</span></div>
+        <div class="items">
+          <div class="item"><span class="item__name">Matcha Latte</span><span class="item__price">P 80</span><div class="item__add"><button class="size-btn" type="button" data-name="Matcha Latte" data-size="M" data-price="80" data-cat="Non Coffee">M&middot;P80</button><button class="size-btn" type="button" data-name="Matcha Latte" data-size="L" data-price="100" data-cat="Non Coffee">L&middot;P100</button></div></div>
+          <div class="item"><span class="item__name">Strawberry Matcha Latte</span><span class="item__price">P 80</span><div class="item__add"><button class="size-btn" type="button" data-name="Strawberry Matcha Latte" data-size="M" data-price="80" data-cat="Non Coffee">M&middot;P80</button><button class="size-btn" type="button" data-name="Strawberry Matcha Latte" data-size="L" data-price="100" data-cat="Non Coffee">L&middot;P100</button></div></div>
+          <div class="item"><span class="item__name">Strawberry Milk</span><span class="item__price">P 80</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Strawberry Milk" data-size="M" data-price="80" data-cat="Non Coffee">M&middot;P80</button><button class="size-btn" type="button" data-name="Strawberry Milk" data-size="L" data-price="100" data-cat="Non Coffee">L&middot;P100</button></div></div>
+        </div>
+      </section>
+
+      <!-- FRUIT TEA -->
+      <section class="cat" aria-labelledby="cat-ft" data-reveal>
+        <div class="cat__title"><h3 id="cat-ft">Fruit Tea</h3><span class="cat__price-note">S 12oz P 40 &middot; M 16oz P 50 &middot; L 22oz P 60</span></div>
+        <div class="items">
+          <div class="item"><span class="item__name">Green Apple</span><span class="item__price">P 40</span><div class="item__add"><button class="size-btn" type="button" data-name="Green Apple" data-size="S" data-price="40" data-cat="Fruit Tea">S&middot;P40</button><button class="size-btn" type="button" data-name="Green Apple" data-size="M" data-price="50" data-cat="Fruit Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Green Apple" data-size="L" data-price="60" data-cat="Fruit Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Strawberry</span><span class="item__price">P 40</span><div class="item__add"><button class="size-btn" type="button" data-name="Strawberry" data-size="S" data-price="40" data-cat="Fruit Tea">S&middot;P40</button><button class="size-btn" type="button" data-name="Strawberry" data-size="M" data-price="50" data-cat="Fruit Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Strawberry" data-size="L" data-price="60" data-cat="Fruit Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Lychee</span><span class="item__price">P 40</span><div class="item__add"><button class="size-btn" type="button" data-name="Lychee" data-size="S" data-price="40" data-cat="Fruit Tea">S&middot;P40</button><button class="size-btn" type="button" data-name="Lychee" data-size="M" data-price="50" data-cat="Fruit Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Lychee" data-size="L" data-price="60" data-cat="Fruit Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Lemon</span><span class="item__price">P 40</span><div class="item__add"><button class="size-btn" type="button" data-name="Lemon" data-size="S" data-price="40" data-cat="Fruit Tea">S&middot;P40</button><button class="size-btn" type="button" data-name="Lemon" data-size="M" data-price="50" data-cat="Fruit Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Lemon" data-size="L" data-price="60" data-cat="Fruit Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Passion Fruit</span><span class="item__price">P 40</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Passion Fruit" data-size="S" data-price="40" data-cat="Fruit Tea">S&middot;P40</button><button class="size-btn" type="button" data-name="Passion Fruit" data-size="M" data-price="50" data-cat="Fruit Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Passion Fruit" data-size="L" data-price="60" data-cat="Fruit Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Mango</span><span class="item__price">P 40</span><div class="item__add"><button class="size-btn" type="button" data-name="Mango" data-size="S" data-price="40" data-cat="Fruit Tea">S&middot;P40</button><button class="size-btn" type="button" data-name="Mango" data-size="M" data-price="50" data-cat="Fruit Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Mango" data-size="L" data-price="60" data-cat="Fruit Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Grape</span><span class="item__price">P 40</span><div class="item__add"><button class="size-btn" type="button" data-name="Grape" data-size="S" data-price="40" data-cat="Fruit Tea">S&middot;P40</button><button class="size-btn" type="button" data-name="Grape" data-size="M" data-price="50" data-cat="Fruit Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Grape" data-size="L" data-price="60" data-cat="Fruit Tea">L&middot;P60</button></div></div>
+          <div class="item"><span class="item__name">Blueberry</span><span class="item__price">P 40</span><div class="item__add"><button class="size-btn" type="button" data-name="Blueberry" data-size="S" data-price="40" data-cat="Fruit Tea">S&middot;P40</button><button class="size-btn" type="button" data-name="Blueberry" data-size="M" data-price="50" data-cat="Fruit Tea">M&middot;P50</button><button class="size-btn" type="button" data-name="Blueberry" data-size="L" data-price="60" data-cat="Fruit Tea">L&middot;P60</button></div></div>
+        </div>
+      </section>
+
+      <!-- YAKULT SERIES -->
+      <section class="cat" aria-labelledby="cat-yak" data-reveal>
+        <div class="cat__title"><h3 id="cat-yak">Yakult Series</h3><span class="cat__price-note">M 16oz P 49 &middot; L 22oz P 59</span></div>
+        <div class="items">
+          <div class="item"><span class="item__name">Green Apple Yakult</span><span class="item__price">P 49</span><div class="item__add"><button class="size-btn" type="button" data-name="Green Apple Yakult" data-size="M" data-price="49" data-cat="Yakult Series">M&middot;P49</button><button class="size-btn" type="button" data-name="Green Apple Yakult" data-size="L" data-price="59" data-cat="Yakult Series">L&middot;P59</button></div></div>
+          <div class="item"><span class="item__name">Strawberry Yakult</span><span class="item__price">P 49</span><div class="item__add"><button class="size-btn" type="button" data-name="Strawberry Yakult" data-size="M" data-price="49" data-cat="Yakult Series">M&middot;P49</button><button class="size-btn" type="button" data-name="Strawberry Yakult" data-size="L" data-price="59" data-cat="Yakult Series">L&middot;P59</button></div></div>
+          <div class="item"><span class="item__name">Lychee Yakult</span><span class="item__price">P 49</span><div class="item__add"><button class="size-btn" type="button" data-name="Lychee Yakult" data-size="M" data-price="49" data-cat="Yakult Series">M&middot;P49</button><button class="size-btn" type="button" data-name="Lychee Yakult" data-size="L" data-price="59" data-cat="Yakult Series">L&middot;P59</button></div></div>
+          <div class="item"><span class="item__name">Lemon Yakult</span><span class="item__price">P 49</span><div class="item__add"><button class="size-btn" type="button" data-name="Lemon Yakult" data-size="M" data-price="49" data-cat="Yakult Series">M&middot;P49</button><button class="size-btn" type="button" data-name="Lemon Yakult" data-size="L" data-price="59" data-cat="Yakult Series">L&middot;P59</button></div></div>
+          <div class="item"><span class="item__name">Passion Fruit Yakult</span><span class="item__price">P 49</span><div class="item__add"><button class="size-btn" type="button" data-name="Passion Fruit Yakult" data-size="M" data-price="49" data-cat="Yakult Series">M&middot;P49</button><button class="size-btn" type="button" data-name="Passion Fruit Yakult" data-size="L" data-price="59" data-cat="Yakult Series">L&middot;P59</button></div></div>
+          <div class="item"><span class="item__name">Mango Yakult</span><span class="item__price">P 49</span><svg class="item__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg><div class="item__add"><button class="size-btn" type="button" data-name="Mango Yakult" data-size="M" data-price="49" data-cat="Yakult Series">M&middot;P49</button><button class="size-btn" type="button" data-name="Mango Yakult" data-size="L" data-price="59" data-cat="Yakult Series">L&middot;P59</button></div></div>
+          <div class="item"><span class="item__name">Grape Yakult</span><span class="item__price">P 49</span><div class="item__add"><button class="size-btn" type="button" data-name="Grape Yakult" data-size="M" data-price="49" data-cat="Yakult Series">M&middot;P49</button><button class="size-btn" type="button" data-name="Grape Yakult" data-size="L" data-price="59" data-cat="Yakult Series">L&middot;P59</button></div></div>
+          <div class="item"><span class="item__name">Blueberry Yakult</span><span class="item__price">P 49</span><div class="item__add"><button class="size-btn" type="button" data-name="Blueberry Yakult" data-size="M" data-price="49" data-cat="Yakult Series">M&middot;P49</button><button class="size-btn" type="button" data-name="Blueberry Yakult" data-size="L" data-price="59" data-cat="Yakult Series">L&middot;P59</button></div></div>
+        </div>
+      </section>
+
+      <!-- ADD ONS -->
+      <section class="cat" aria-labelledby="cat-add" data-reveal>
+        <div class="cat__title"><h3 id="cat-add">Add Ons</h3></div>
+        <div class="addons">
+          <div class="addon"><div class="addon__name">Extra Pearl</div><div class="addon__price">P 10</div><div class="item__add"><button class="add-btn" type="button" data-name="Extra Pearl" data-size="" data-price="10" data-cat="Add Ons">+ Add</button></div></div>
+          <div class="addon"><div class="addon__name">Nata de Coco</div><div class="addon__price">P 10</div><div class="item__add"><button class="add-btn" type="button" data-name="Nata de Coco" data-size="" data-price="10" data-cat="Add Ons">+ Add</button></div></div>
+          <div class="addon"><div class="addon__name">Strawberry Puree</div><div class="addon__price">P 15</div><div class="item__add"><button class="add-btn" type="button" data-name="Strawberry Puree" data-size="" data-price="15" data-cat="Add Ons">+ Add</button></div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ============ CART UI (shared) ============ -->
+  <button class="cart-fab" id="cart-fab" type="button" aria-label="Open order cart" hidden>
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+    <span class="cart-fab__badge" id="cart-fab-badge">0</span>
+  </button>
+
+  <div class="cart-drawer" id="cart-drawer" aria-hidden="true">
+    <div class="cart-drawer__panel" role="dialog" aria-modal="true" aria-label="Your order">
+      <div class="cart-drawer__head">
+        <h2 class="cart-drawer__title">Your order</h2>
+        <button class="cart-drawer__close" id="cart-close" type="button" aria-label="Close cart">&times;</button>
+      </div>
+      <div class="cart-drawer__body" id="cart-body"></div>
+      <div class="cart-drawer__foot">
+        <div class="cart-total"><span>Total</span><span class="cart-total__amt" id="cart-total">P 0</span></div>
+        <a class="btn btn--accent btn--block" id="cart-send" href="#" target="_blank" rel="noopener">
+          Send order to Messenger
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <button class="cart-clear" id="cart-clear" type="button">Clear order</button>
+      </div>
+    </div>
+  </div>
+  <div class="cart-backdrop" id="cart-backdrop" hidden></div>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="40" height="40" />
+        <p style="margin-top:0.75rem;color:var(--ink-soft);">Neighborhood coffee, milk tea and snacks in Dolores, Capas, Tarlac. Est. 2024.</p>
+      </div>
+      <div><h3>Pages</h3><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="contact.html">Visit</a></div>
+      <div><h3>Order</h3><a href="https://www.facebook.com/profile.php?id=61563817495458" target="_blank" rel="noopener">Facebook</a><a href="#" id="footer-order-link">Message us to order</a></div>
+    </div>
+    <div class="container footer__bottom"><span>&copy; 2024 Tea-Ta Kopi</span><span>Dolores, Capas, Tarlac</span></div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

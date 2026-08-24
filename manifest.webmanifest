@@ -1,0 +1,16 @@
+{
+  "name": "Tea-Ta Kopi",
+  "short_name": "Tea-Ta Kopi",
+  "description": "Coffee, milk tea and snacks in Dolores, Capas, Tarlac. Order through Messenger.",
+  "start_url": "index.html",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FCFBF9",
+  "theme_color": "#B0431C",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

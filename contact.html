@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315110C'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' fill='%23D9744E' transform='rotate(-20 16 16)'/%3E%3Cpath d='M16 7 Q16 16 16 25' stroke='%2315110C' stroke-width='1.6' fill='none'/%3E%3C/svg%3E" />
+  <title>Visit &amp; Order - Tea-Ta Kopi</title>
+  <meta name="description" content="Visit Tea-Ta Kopi in Dolores, Capas, Tarlac. Open every day 3 PM to 10 PM. Message us on Facebook to place your order." />
+  <meta name="theme-color" content="#B0431C" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="nav-wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__brand" href="index.html">
+        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="34" height="34" />
+        <span>Tea-Ta Kopi</span>
+      </a>
+      <div class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="is-active">Visit</a>
+      </div>
+      <div class="nav__right">
+        <a class="btn btn--accent js-order" href="#order">
+          Message us to order
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+        </button>
+        <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay"><span></span></button>
+      </div>
+    </nav>
+  </div>
+  <div class="nav__overlay" id="nav-overlay">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Visit</a>
+    <a class="btn btn--accent js-order" href="#order" style="align-self:flex-start;margin-top:1rem;">Message us to order</a>
+  </div>
+
+  <main id="main">
+    <section class="menu-hero container">
+      <h1 data-reveal>Come visit</h1>
+      <p class="lede" style="margin:0.75rem auto 0;" data-reveal>Dolores, Capas, Tarlac. 3 PM to 10 PM, daily.</p>
+      <div style="margin-top:1.5rem;" data-reveal>
+        <a class="btn btn--accent js-order" href="#order">Message us to order
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <div class="container" style="padding-bottom:var(--space-5);">
+      <!-- Order CTA target -->
+      <section id="order" class="bezel" data-reveal>
+        <div class="bezel__core order-card">
+          <p class="eyebrow">How to order</p>
+          <h3>Message us to order</h3>
+          <p>We take orders through Facebook Messenger. Build your list on the menu, then send it to us in one tap. We will have it ready at the window.</p>
+          <a class="btn btn--accent btn--block js-order" href="#order" style="margin-top:0.5rem;">
+            Open my order
+            <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </a>
+          <a class="btn btn--ghost btn--block" href="https://m.me/61563817495458" target="_blank" rel="noopener" style="margin-top:0.6rem;">
+            Or message us directly on Messenger
+          </a>
+        </div>
+      </section>
+
+      <div class="contact-grid" style="margin-top:var(--space-4);">
+        <!-- Info -->
+        <div class="bezel" data-reveal>
+          <div class="bezel__core">
+            <h2 style="font-size:1.5rem;margin-bottom:0.5rem;">Details</h2>
+            <div class="info-row"><span class="info-row__k">Address</span><span class="info-row__v">Dolores, Capas, Tarlac</span></div>
+            <div class="info-row"><span class="info-row__k">Hours</span><span class="info-row__v">Every day, 3 PM to 10 PM</span></div>
+            <div class="info-row"><span class="info-row__k">Order</span><span class="info-row__v">Facebook Messenger</span></div>
+            <div class="info-row"><span class="info-row__k">Since</span><span class="info-row__v">2024</span></div>
+            <div class="socials" style="margin-top:1.25rem;">
+              <a href="https://www.facebook.com/profile.php?id=61563817495458" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H8v3h3v6h3v-6h3l1-3h-4V9z"/></svg>
+                Facebook
+              </a>
+              <a href="#order">Message us to order</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="visit__map" data-reveal>
+          <iframe title="Map to Tea-Ta Kopi, Dolores, Capas, Tarlac"
+            src="https://www.google.com/maps?q=TEA-TA+KOPI@15.3693105,120.5902725&z=17&output=embed"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="40" height="40" />
+        <p style="margin-top:0.75rem;color:var(--ink-soft);">Neighborhood coffee, milk tea and snacks in Dolores, Capas, Tarlac. Est. 2024.</p>
+      </div>
+      <div><h3>Pages</h3><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="contact.html">Visit</a></div>
+      <div><h3>Order</h3><a href="https://www.facebook.com/profile.php?id=61563817495458" target="_blank" rel="noopener">Facebook</a><a class="js-order" href="#order">Message us to order</a></div>
+    </div>
+    <div class="container footer__bottom"><span>&copy; 2024 Tea-Ta Kopi</span><span>Dolores, Capas, Tarlac</span></div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315110C'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' fill='%23D9744E' transform='rotate(-20 16 16)'/%3E%3Cpath d='M16 7 Q16 16 16 25' stroke='%2315110C' stroke-width='1.6' fill='none'/%3E%3C/svg%3E" />
+  <title>About - Tea-Ta Kopi</title>
+  <meta name="description" content="The story behind Tea-Ta Kopi: a neighborhood coffee and milk tea spot in Dolores, Capas, Tarlac, open since 2024." />
+  <meta name="theme-color" content="#B0431C" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="nav-wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__brand" href="index.html">
+        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="34" height="34" />
+        <span>Tea-Ta Kopi</span>
+      </a>
+      <div class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="about.html" class="is-active">About</a>
+        <a href="contact.html">Visit</a>
+      </div>
+      <div class="nav__right">
+        <a class="btn btn--accent js-order" href="contact.html#order">
+          Message us to order
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+        </button>
+        <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay"><span></span></button>
+      </div>
+    </nav>
+  </div>
+  <div class="nav__overlay" id="nav-overlay">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Visit</a>
+    <a class="btn btn--accent js-order" href="contact.html#order" style="align-self:flex-start;margin-top:1rem;">Message us to order</a>
+  </div>
+
+  <main id="main">
+    <section class="menu-hero container">
+      <h1 data-reveal>Our story</h1>
+      <p class="lede" style="margin:0.75rem auto 0;" data-reveal>A small neighborhood spot in Dolores, Capas, built around good drinks and a warm welcome.</p>
+      <div style="margin-top:1.5rem;" data-reveal>
+        <a class="btn btn--accent js-order" href="contact.html#order">Message us to order
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <div class="container" style="padding-bottom:var(--space-5);">
+      <!-- Logo meaning -->
+      <section class="bezel" data-reveal>
+        <div class="bezel__core">
+          <div class="logo-meaning">
+            <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi line-art logo" width="110" height="110" />
+            <div>
+              <h2 style="font-size:clamp(1.5rem,3vw,2rem);margin:0.4rem 0 0.6rem;">A cup, a home, a coffee bean</h2>
+              <p style="color:var(--ink-soft);">Tea-Ta is short for "A Sip of Tita's Warm Embrace", and the logo carries that feeling. The barista is the welcome you get at the window. The little house on the letter A is our nod to home, the place a good drink should make you feel. And the bean in the O is the coffee at the heart of everything we pour, from a Spanish latte to a wintermelon milk tea.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Story split -->
+      <section class="split" style="margin-top:var(--space-5);" data-reveal>
+        <div class="split__media">
+          <img src="assets/storefront-night.jpg" alt="Tea-Ta Kopi storefront and seating at night" width="800" height="1000" />
+        </div>
+        <div>
+          <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);margin:0.4rem 0 0.8rem;">Made for the afternoon pause</h2>
+          <p class="lede">Tea-Ta is short for "A Sip of Tita's Warm Embrace". We opened in 2024 with a simple idea: keep the menu wide, the prices fair, and the service quick, so neighbors have a spot to feel looked after.</p>
+          <p style="margin-top:1rem;color:var(--ink-soft);">Everything is made to order at our window. Sit on the little benches out front, or take it with you. Either way, you are part of the neighborhood we built this for.</p>
+        </div>
+      </section>
+
+      <!-- Values -->
+      <section style="margin-top:var(--space-5);" data-reveal>
+        <div class="head"><h2>What we keep close</h2></div>
+        <div class="values">
+          <div class="card"><h3 style="font-size:1.2rem;">Made to order</h3><p style="color:var(--ink-soft);margin-top:0.5rem;">Every cup is built fresh at the window, not sitting on a shelf.</p></div>
+          <div class="card"><h3 style="font-size:1.2rem;">Fair prices</h3><p style="color:var(--ink-soft);margin-top:0.5rem;">A full menu that stays friendly to a daily habit.</p></div>
+          <div class="card"><h3 style="font-size:1.2rem;">Neighborhood first</h3><p style="color:var(--ink-soft);margin-top:0.5rem;">We are a local spot for local people, open every afternoon.</p></div>
+        </div>
+      </section>
+
+      <!-- Gallery (real photos) -->
+      <section style="margin-top:var(--space-5);" data-reveal>
+        <div class="head"><h2>From the shop</h2></div>
+        <div class="gallery">
+          <figure><img src="assets/storefront-night.jpg" alt="Tea-Ta Kopi lit storefront at night" width="600" height="280" /></figure>
+          <figure><img src="assets/menu-board.jpg" alt="Tea-Ta Kopi drink menu board" width="600" height="280" /></figure>
+          <figure>
+            <!-- TODO(owner): replace with a real drink/store photo. Keep filename drink-1.jpg. -->
+            <img src="assets/storefront-night.jpg" alt="Tea-Ta Kopi drinks (placeholder, swap with a real photo)" width="600" height="280" style="filter:grayscale(0.2);" />
+          </figure>
+        </div>
+      </section>
+
+      <div style="text-align:center;margin-top:var(--space-4);" data-reveal>
+        <a class="btn btn--accent js-order" href="contact.html#order">
+          Message us to order
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="40" height="40" />
+        <p style="margin-top:0.75rem;color:var(--ink-soft);">Neighborhood coffee, milk tea and snacks in Dolores, Capas, Tarlac. Est. 2024.</p>
+      </div>
+      <div><h3>Pages</h3><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="contact.html">Visit</a></div>
+      <div><h3>Order</h3><a href="https://www.facebook.com/profile.php?id=61563817495458" target="_blank" rel="noopener">Facebook</a><a class="js-order" href="contact.html#order">Message us to order</a></div>
+    </div>
+    <div class="container footer__bottom"><span>&copy; 2024 Tea-Ta Kopi</span><span>Dolores, Capas, Tarlac</span></div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

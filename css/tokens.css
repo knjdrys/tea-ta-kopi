@@ -1,0 +1,124 @@
+/* ============================================================
+   Tea-Ta Kopi - Design Tokens (single source of truth)
+   Taste skill §2/§3: one accent locked, light + dark, no pure
+   #000/#fff, no AI-purple, no banned beige+brass hexes.
+   Fonts self-hosted (no Google <link> in prod).
+   ============================================================ */
+
+/* ---- Fonts (self-hosted woff2) ---- */
+@font-face {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/sora-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/sora-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/sora-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/space-mono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Space Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/space-mono-700.woff2") format("woff2");
+}
+
+/* ---- Light theme (default) ---- */
+:root {
+  /* Surfaces: warm off-white, never pure #fff */
+  --bg:          #FCFBF9;
+  --surface:     #F4F1EC;
+  --surface-2:   #ECE7DF;
+
+  /* Ink: warm near-black, never #000 */
+  --ink:         #1B1712;
+  --ink-soft:    #5B554C;
+
+  /* Lines */
+  --line:        #E2DCD2;
+
+  /* ONE accent, locked across the whole site (clay / terracotta).
+     Darkened from #C2603C so white text clears WCAG AA (5.7:1). */
+  --accent:      #B0431C;
+  --accent-2:    #8C3A1B;   /* prices on surface-2 (6.2:1) */
+  --accent-ink:  #FFFFFF;
+
+  /* Tinted elevation (no pure-black drop shadows) */
+  --shadow-sm:   0 1px 2px rgba(27, 23, 18, 0.06);
+  --shadow-md:   0 10px 30px -12px rgba(27, 23, 18, 0.18);
+  --shadow-lg:   0 24px 60px -20px rgba(27, 23, 18, 0.26);
+
+  /* Inner highlight for Double-Bezel cores */
+  --bezel-hi:   inset 0 1px 0 rgba(255, 255, 255, 0.55);
+
+  /* Type families */
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-body:    "Sora", system-ui, sans-serif;
+  --font-mono:    "Space Mono", ui-monospace, monospace;
+
+  /* Spacing scale */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6.5rem;
+
+  /* Radii - one consistent system (taste §4.4) */
+  --r-pill:  999px;
+  --r-card:  16px;
+  --r-img:   16px;
+
+  /* Motion - fluid, never linear/ease-in-out (high-end §5) */
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur: 0.6s;
+
+  /* Layout */
+  --maxw: 1200px;
+  --nav-h: 64px;
+
+  /* Grain overlay opacity */
+  --grain: 0.035;
+}
+
+/* ---- Dark theme ---- */
+[data-theme="dark"] {
+  --bg:          #15110C;
+  --surface:     #1E190F;
+  --surface-2:   #271F14;
+
+  --ink:         #F3EEE4;
+  --ink-soft:    #B7AE9F;
+
+  --line:        #2E271C;
+
+  --accent:      #D9744E;   /* brighter clay for dark contrast */
+  --accent-2:    #E8865F;
+  --accent-ink:  #1B1206;
+
+  --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md:   0 14px 36px -14px rgba(0, 0, 0, 0.6);
+  --shadow-lg:   0 28px 70px -22px rgba(0, 0, 0, 0.7);
+
+  --bezel-hi:   inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --grain: 0.05;
+}
