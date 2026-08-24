@@ -1,15 +1,10 @@
 /* Tea-Ta Kopi - tactile sound (vanilla, no audio files)
    - Generated at runtime via Web Audio API (clicks/pops), zero network, instant.
    - Browser autoplay policy: AudioContext is created lazily on the first user gesture.
-   - Respects a persisted mute toggle and prefers-reduced-motion (still allows sound,
-     but the toggle is the user's call; reduced-motion only gates the visual fly).
+   - Sound is always on (no mute control) per product decision.
 */
 (function () {
   "use strict";
-
-  var MUTE_KEY = "ttk-muted";
-  var muted = false;
-  try { muted = localStorage.getItem(MUTE_KEY) === "1"; } catch (e) {}
 
   var ctx = null;
   function ensureCtx() {
@@ -22,7 +17,6 @@
 
   // A short, pleasant percussive blip. type: "tick" (soft UI click) | "pop" (add-to-cart)
   function blip(type) {
-    if (muted) return;
     var c = ensureCtx();
     if (!c) return;
     if (c.state === "suspended") { try { c.resume(); } catch (e) {} }
@@ -44,12 +38,6 @@
 
   window.__ttkSound = {
     tick: function () { blip("tick"); },
-    pop: function () { blip("pop"); },
-    isMuted: function () { return muted; },
-    toggleMute: function () {
-      muted = !muted;
-      try { localStorage.setItem(MUTE_KEY, muted ? "1" : "0"); } catch (e) {}
-      return muted;
-    }
+    pop: function () { blip("pop"); }
   };
 })();

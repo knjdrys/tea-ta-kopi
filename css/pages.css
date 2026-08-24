@@ -191,6 +191,32 @@
 .filter-pill:hover { background: var(--surface-2); }
 .filter-pill.is-active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 
+/* Scroll cue: tells phone users the category strip swipes. Auto-hides on scroll. */
+.menu-filters__hint {
+  display: none;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.5rem;
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  animation: hintNudge 1.4s var(--ease) infinite;
+}
+.menu-filters__hint.is-hidden { opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease); }
+@keyframes hintNudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+/* Only show the cue when the strip actually overflows (set by JS) */
+.menu-filters.can-scroll .menu-filters__hint { display: inline-flex; }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-filters__hint { animation: none; }
+}
+
 .items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
 .item {
   display: flex; align-items: center; gap: 0.7rem;

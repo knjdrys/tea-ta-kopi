@@ -103,33 +103,33 @@
         if (match) cat.classList.add("in"); // reveal even if not yet scrolled into view
       });
     });
+
+    /* Scroll cue: show only if the strip overflows; hide on first swipe / at end */
+    var track = filterBar.querySelector(".menu-filters__track");
+    var hint = filterBar.querySelector(".menu-filters__hint");
+    function syncScrollCue() {
+      if (!track || !hint) return;
+      var overflow = track.scrollWidth - track.clientWidth > 8;
+      filterBar.classList.toggle("can-scroll", overflow);
+      if (!overflow) hint.classList.add("is-hidden");
+    }
+    function hideCue() { if (hint) hint.classList.add("is-hidden"); }
+    if (track) {
+      track.addEventListener("scroll", function () {
+        hideCue();
+        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 8) hideCue();
+      }, { passive: true });
+      window.addEventListener("resize", syncScrollCue);
+      syncScrollCue();
+    }
   }
 
-  /* ---- Sound toggle + tactile tick on UI taps ---- */
-  var soundBtn = document.getElementById("sound-toggle");
-  function syncSoundIcon() {
-    if (!soundBtn) return;
-    var muted = window.__ttkSound && window.__ttkSound.isMuted();
-    soundBtn.setAttribute("aria-pressed", muted ? "true" : "false");
-    var on = soundBtn.querySelector(".icon-sound-on");
-    var off = soundBtn.querySelector(".icon-sound-off");
-    if (on) on.style.display = muted ? "none" : "";
-    if (off) off.style.display = muted ? "" : "none";
-  }
-  if (soundBtn) {
-    syncSoundIcon();
-    soundBtn.addEventListener("click", function () {
-      if (window.__ttkSound) window.__ttkSound.toggleMute();
-      syncSoundIcon();
-      if (window.__ttkSound) window.__ttkSound.tick(); // confirm the new state audibly
-    });
-  }
-  // Soft tick on most button taps (nav, links, filter pills, theme/cart controls)
+  /* ---- Tactile tick on UI taps (sound is always on, no mute control) ---- */
   document.addEventListener("click", function (e) {
     if (!window.__ttkSound) return;
     var el = e.target.closest("a, button");
     if (!el) return;
-    if (el.id === "sound-toggle" || el.closest("#cart-drawer") || el.classList.contains("add-btn") || el.classList.contains("size-btn")) return; // these have their own sound
+    if (el.closest("#cart-drawer") || el.classList.contains("add-btn") || el.classList.contains("size-btn")) return; // these have their own sound
     window.__ttkSound.tick();
   });
   if ("serviceWorker" in navigator) {
