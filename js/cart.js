@@ -185,14 +185,9 @@
   }
 
   /* ---- Fly-to-cart animation (the satisfying part) ---- */
-  var SUPPORTS_OFFSET = (function () {
-    try { return window.CSS && CSS.supports && CSS.supports("offset-path", 'path("M0 0 L1 1")'); }
-    catch (e) { return false; }
-  })();
-
   function flyToCart(btn) {
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!fab || fab.hidden || !SUPPORTS_OFFSET || reduce) { bumpCart(); return; }
+    if (!fab || fab.hidden) { bumpCart(); return; }
 
     var start = btn.getBoundingClientRect();
     var end = fab.getBoundingClientRect();
@@ -200,26 +195,36 @@
     var sy = start.top + start.height / 2;
     var ex = end.left + end.width / 2;
     var ey = end.top + end.height / 2;
-    // control point: above the midpoint so the path arcs up and over
-    var cx = (sx + ex) / 2;
-    var cy = Math.min(sy, ey) - Math.max(90, Math.abs(ex - sx) * 0.25);
 
     var fly = document.createElement("span");
     fly.className = "cart-fly";
     fly.textContent = btn.getAttribute("data-size") ? btn.getAttribute("data-size") : "+";
-    fly.style.offsetPath = 'path("M ' + sx + " " + sy + " Q " + cx + " " + cy + " " + ex + " " + ey + '")';
+    // place at the button center to start
+    fly.style.left = (sx - 19) + "px";
+    fly.style.top = (sy - 19) + "px";
     document.body.appendChild(fly);
 
-    requestAnimationFrame(function () { fly.classList.add("cart-fly--go"); });
-
-    var done = false;
-    function finish() {
-      if (done) return; done = true;
+    if (reduce || !fly.animate) { // graceful: just bump, no flight
       if (fly.parentNode) fly.remove();
       bumpCart();
+      return;
     }
-    fly.addEventListener("animationend", finish);
-    setTimeout(finish, 900); // safety net
+
+    // Arc using a quadratic bezier sampled into a motion path (transform-based, no offset-path dependency)
+    var cx = (sx + ex) / 2;
+    var cy = Math.min(sy, ey) - Math.max(90, Math.abs(ex - sx) * 0.25);
+    var dx = sx, dy = sy;
+    var frames = [];
+    var N = 24;
+    for (var i = 0; i <= N; i++) {
+      var t = i / N, mt = 1 - t;
+      var x = mt * mt * sx + 2 * mt * t * cx + t * t * ex;
+      var y = mt * mt * sy + 2 * mt * t * cy + t * t * ey;
+      frames.push({ transform: "translate(" + (x - sx) + "px," + (y - sy) + "px) scale(" + (1 - 0.65 * t) + ")", opacity: t > 0.85 ? (1 - (t - 0.85) / 0.15) : 1 });
+    }
+    var anim = fly.animate(frames, { duration: 720, easing: "cubic-bezier(0.22,0.61,0.36,1)", fill: "forwards" });
+    anim.onfinish = function () { if (fly.parentNode) fly.remove(); bumpCart(); };
+    setTimeout(function () { if (fly.parentNode) { fly.remove(); bumpCart(); } }, 900); // safety net
   }
 
   function bumpCart() {

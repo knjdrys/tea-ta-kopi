@@ -347,23 +347,17 @@
   box-shadow: var(--shadow-md);
   pointer-events: none;
   opacity: 1;
-  offset-rotate: 0deg;
-  will-change: offset-distance, transform, opacity;
+  will-change: transform, opacity;
 }
-.cart-fly--go {
-  animation: flyArc 0.72s var(--ease) forwards, flyShrink 0.72s var(--ease) forwards;
-}
-@keyframes flyArc {
-  0% { offset-distance: 0%; }
-  100% { offset-distance: 100%; }
-}
-@keyframes flyShrink {
-  0% { transform: scale(1); opacity: 1; }
-  70% { opacity: 1; }
-  100% { transform: scale(0.35); opacity: 0; }
+.cart-fab--bump { animation: cartBump 0.42s var(--ease); }
+@keyframes cartBump {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.18) rotate(-4deg); }
+  70% { transform: scale(0.94); }
+  100% { transform: scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cart-fly, .cart-fab--bump { animation: none !important; }
+  .cart-fab--bump { animation: none; }
 }
 
 /* ---- Cart drawer ---- */
