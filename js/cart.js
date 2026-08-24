@@ -80,6 +80,8 @@
     ensureFab();      // reveal cart first so we can measure its position
     render(true);
     pulse(btn);
+    if (window.__ttkSound) window.__ttkSound.pop();
+    showToast(name + (size ? " (" + size + ")" : "") + " added", "P " + price);
     flyToCart(btn);
   }
 
@@ -241,6 +243,24 @@
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function pulse(btn) {
     btn.classList.remove("pulse"); void btn.offsetWidth; btn.classList.add("pulse");
+  }
+
+  /* ---- Order toast (unmistakable feedback, even when motion/sound is off) ---- */
+  var toastTimer = null;
+  function showToast(title, sub) {
+    var host = document.getElementById("ttk-toast");
+    if (!host) {
+      host = document.createElement("div");
+      host.id = "ttk-toast";
+      host.className = "ttk-toast";
+      host.setAttribute("role", "status");
+      host.setAttribute("aria-live", "polite");
+      document.body.appendChild(host);
+    }
+    host.innerHTML = '<span class="ttk-toast__title">' + escapeHtml(title) + "</span>" + (sub ? '<span class="ttk-toast__sub">' + escapeHtml(sub) + "</span>" : "");
+    host.classList.add("is-visible");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { host.classList.remove("is-visible"); }, 1800);
   }
 
   /* ---- Init ---- */

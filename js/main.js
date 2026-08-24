@@ -105,7 +105,33 @@
     });
   }
 
-  /* ---- PWA service worker (offline + installable) ---- */
+  /* ---- Sound toggle + tactile tick on UI taps ---- */
+  var soundBtn = document.getElementById("sound-toggle");
+  function syncSoundIcon() {
+    if (!soundBtn) return;
+    var muted = window.__ttkSound && window.__ttkSound.isMuted();
+    soundBtn.setAttribute("aria-pressed", muted ? "true" : "false");
+    var on = soundBtn.querySelector(".icon-sound-on");
+    var off = soundBtn.querySelector(".icon-sound-off");
+    if (on) on.style.display = muted ? "none" : "";
+    if (off) off.style.display = muted ? "" : "none";
+  }
+  if (soundBtn) {
+    syncSoundIcon();
+    soundBtn.addEventListener("click", function () {
+      if (window.__ttkSound) window.__ttkSound.toggleMute();
+      syncSoundIcon();
+      if (window.__ttkSound) window.__ttkSound.tick(); // confirm the new state audibly
+    });
+  }
+  // Soft tick on most button taps (nav, links, filter pills, theme/cart controls)
+  document.addEventListener("click", function (e) {
+    if (!window.__ttkSound) return;
+    var el = e.target.closest("a, button");
+    if (!el) return;
+    if (el.id === "sound-toggle" || el.closest("#cart-drawer") || el.classList.contains("add-btn") || el.classList.contains("size-btn")) return; // these have their own sound
+    window.__ttkSound.tick();
+  });
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
       navigator.serviceWorker.register("service-worker.js").catch(function (e) {
