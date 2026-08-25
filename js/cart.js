@@ -105,7 +105,12 @@
 
     if (!body) return;
     if (count === 0) {
-      body.innerHTML = '<p class="cart-empty">Your order is empty. Tap any drink on the menu to add it.</p>';
+      body.innerHTML =
+        '<div class="cart-empty">' +
+          '<svg class="cart-empty__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6L5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>' +
+          '<p>Your order is empty.</p>' +
+          '<a href="menu.html">Browse the menu</a>' +
+        '</div>';
     } else {
       var rows = "";
       cart.forEach(function (it, i) {
@@ -125,8 +130,26 @@
     }
 
     var total = cart.reduce(function (s, it) { return s + it.price * (it.qty || 1); }, 0);
-    if (totalEl) totalEl.textContent = "P " + total;
+    if (totalEl) animateTotal(totalEl, total);
     if (sendBtn) sendBtn.href = buildMessengerLink(total);
+  }
+
+  /* ---- Animated cart total (count-up + pulse) ---- */
+  function animateTotal(el, to) {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var from = parseInt((el.textContent || "0").replace(/[^0-9]/g, ""), 10) || 0;
+    if (reduce || from === to) { el.textContent = "P " + to; return; }
+    el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump");
+    var start = null, dur = 420;
+    function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = "P " + Math.round(from + (to - from) * eased);
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = "P " + to;
+    }
+    requestAnimationFrame(step);
   }
 
   /* ---- Qty stepper in the drawer ---- */

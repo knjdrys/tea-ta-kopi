@@ -59,13 +59,22 @@
   var reduce = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Staggered item/card entrance: tag .item / .bs with an index for cascade.
+  var staggered = document.querySelectorAll(".item, .bs");
+  staggered.forEach(function (el, i) {
+    el.classList.add("reveal-item");
+    el.style.setProperty("--i", i % 12); // cap stagger so long lists don't lag
+  });
+
   // Safety net: if JS/observer is slow, never leave content stuck invisible.
   setTimeout(function () {
     reveals.forEach(function (el) { el.classList.add("in"); });
+    staggered.forEach(function (el) { el.classList.add("in"); });
   }, 1200);
 
   if (reduce || !("IntersectionObserver" in window)) {
     reveals.forEach(function (el) { el.classList.add("in"); });
+    staggered.forEach(function (el) { el.classList.add("in"); });
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -76,6 +85,7 @@
       });
     }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
     reveals.forEach(function (el) { io.observe(el); });
+    staggered.forEach(function (el) { io.observe(el); });
   }
 
   /* ---- Body scroll lock (used by cart drawer) ---- */

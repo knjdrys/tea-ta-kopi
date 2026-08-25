@@ -519,3 +519,85 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   .hero__inner > * { opacity: 1; transform: none; animation: none; }
 }
+
+/* ============================================================
+   PREMIUM MOTION LAYER (added)
+   - staggered item/card entrance
+   - card hover-lift (touch-gated)
+   - animated total + empty state
+   ============================================================ */
+
+/* Staggered entrance for menu items + best-seller cards */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  transition-delay: calc(var(--i, 0) * 55ms);
+}
+.reveal-item.in { opacity: 1; transform: translateY(0); }
+
+/* Card hover-lift (pointer devices only, so phones never stick) */
+@media (hover: hover) and (pointer: fine) {
+  .bs, .item, .card, .value {
+    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+  }
+  .bs:hover, .item:hover, .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* Cart total: count-up pulse when it changes */
+.cart-total__amt { display: inline-block; transition: transform 0.25s var(--ease); }
+.cart-total__amt.bump { animation: totalBump 0.4s var(--ease); }
+@keyframes totalBump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12); color: var(--accent); }
+  100% { transform: scale(1); }
+}
+
+/* Polished empty-cart state */
+.cart-empty {
+  text-align: center;
+  color: var(--ink-soft);
+  padding: 2.2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.cart-empty__icon {
+  width: 46px; height: 46px;
+  color: var(--accent);
+  opacity: 0.85;
+}
+.cart-empty a {
+  color: var(--accent);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item { opacity: 1 !important; transform: none !important; transition: none; }
+  .cart-total__amt.bump { animation: none; }
+}
+
+/* Hero image subtle parallax (CSS scroll-driven, no JS) */
+@supports (animation-timeline: view()) {
+  .hero__img {
+    animation: heroParallax linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+    will-change: transform;
+  }
+  @keyframes heroParallax {
+    from { transform: scale(1.12) translateY(-3%); }
+    to   { transform: scale(1.12) translateY(3%); }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__img { animation: none !important; transform: none !important; }
+}

@@ -104,13 +104,26 @@ p { max-width: 65ch; }
 .nav__brand img { width: 34px; height: 34px; border-radius: 50%; background: var(--surface); }
 .nav__links { display: flex; align-items: center; gap: 0.4rem; }
 .nav__links a {
+  position: relative;
   padding: 0.5rem 0.85rem;
   border-radius: var(--r-pill);
   font-weight: 500;
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
+/* Animated underline (premium nav cue) - width-based so it works under reduced-motion too */
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem; bottom: 0.32rem;
+  height: 2px; width: 0;
+  border-radius: 2px;
+  background: var(--accent);
+  transition: width var(--dur) var(--ease);
+}
 .nav__links a:hover { background: var(--surface); }
+.nav__links a:hover::after { width: calc(100% - 1.7rem); }
 .nav__links a.is-active { color: var(--accent); }
+.nav__links a.is-active::after { width: calc(100% - 1.7rem); }
 .nav__right { display: flex; align-items: center; gap: 0.5rem; }
 
 .nav__toggle {
