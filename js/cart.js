@@ -187,13 +187,11 @@
   /* ---- Build Messenger prefill link ---- */
   function buildMessengerLink(total) {
     var lines = ["Hi Tea-Ta Kopi! I'd like to order:"];
-    var grouped = {};
     cart.forEach(function (it) {
-      var k = it.name + (it.size ? " (" + it.size + ")" : "");
-      grouped[k] = (grouped[k] || 0) + 1;
-    });
-    Object.keys(grouped).forEach(function (k) {
-      lines.push("- " + k + (grouped[k] > 1 ? " x" + grouped[k] : ""));
+      var qty = it.qty || 1;
+      var label = it.name + (it.size ? " (" + it.size + ")" : "");
+      var lineTotal = it.price * qty;
+      lines.push("- " + qty + "x " + label + "  -  P " + lineTotal);
     });
     lines.push("Total: P " + total);
     lines.push("Pickup time: ");
