@@ -254,7 +254,7 @@
 }
 .logo-meaning img { width: 110px; height: 110px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); padding: 0.8rem; }
 
-/* Origin story timeline */
+/* Origin story */
 .story__eyebrow {
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -264,55 +264,8 @@
   color: var(--accent);
   margin: 0;
 }
-.timeline { list-style: none; margin: 0; padding: 0; }
-.timeline__item {
-  position: relative;
-  padding-left: 2.6rem;
-  padding-bottom: 2rem;
-}
-.timeline__item:last-child { padding-bottom: 0; }
-.timeline__item::before { /* node ring */
-  content: "";
-  position: absolute;
-  left: 1px;
-  top: 0.4rem;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 0 4px var(--surface-2);
-}
-.timeline__item::after { /* connecting line */
-  content: "";
-  position: absolute;
-  left: 8px;
-  top: 1.3rem;
-  bottom: -0.3rem;
-  width: 2px;
-  background: var(--line);
-}
-.timeline__item:last-child::after { display: none; }
-.timeline__year {
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent-2);
-  margin: 0 0 0.3rem;
-}
-.timeline__title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.2rem;
-  margin: 0 0 0.5rem;
-}
-.timeline__item p:not(.timeline__year) {
-  color: var(--ink-soft);
-  margin: 0;
-  line-height: 1.6;
-}
+.story p { line-height: 1.7; }
+.story p + p { margin-top: 1rem; }
 
 /* ---------- CONTACT page ---------- */
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); align-items: start; }
