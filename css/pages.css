@@ -29,14 +29,6 @@
     linear-gradient(to top, rgba(21,17,12,0.82) 0%, rgba(21,17,12,0.35) 45%, rgba(21,17,12,0.15) 100%);
 }
 .hero__inner { padding: 6vh 0 7vh; width: 100%; }
-.hero__eyebrow {
-  color: #F3D9C7;
-  font-family: var(--font-mono);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  font-weight: 700;
-}
 .hero h1 {
   color: #FCFBF9;
   font-size: clamp(2.6rem, 7vw, 5rem);
@@ -61,7 +53,6 @@
 /* ---------- Section heading block ---------- */
 .head { max-width: 60ch; margin-bottom: var(--space-4); }
 .head h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 0.4rem 0 0.5rem; }
-.head--center { margin-left: auto; margin-right: auto; text-align: center; }
 
 /* ---------- BENTO (gapless, grid-flow-dense) ---------- */
 .bento {
@@ -80,22 +71,7 @@
   background: var(--surface);
 }
 .bento__cell--img img { width: 100%; height: 100%; object-fit: cover; }
-.bento__cell--wide {
-  grid-column: span 4;
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-}
-.bento__cell--wide img { width: 100%; height: 240px; object-fit: cover; }
-.bento__cell--wide .bento__cta {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to right, rgba(21,17,12,0.5), rgba(21,17,12,0.2));
-}
-
+.bento > .card { /* best-seller cards drop into the grid naturally */ }
 /* best-seller drink card */
 .bs { display: flex; flex-direction: column; justify-content: space-between; }
 .bs__name { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; line-height: 1.15; overflow-wrap: break-word; }
@@ -248,11 +224,6 @@
 .gallery figure { margin: 0; border-radius: var(--r-card); overflow: hidden; box-shadow: var(--shadow-sm); }
 .gallery img { width: 100%; height: 280px; object-fit: cover; }
 .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: var(--space-4); }
-.logo-meaning {
-  display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center;
-  margin-top: var(--space-4);
-}
-.logo-meaning img { width: 110px; height: 110px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); padding: 0.8rem; }
 
 /* Origin story */
 .story__eyebrow {
@@ -551,9 +522,6 @@ body::after {
 
 /* Card hover-lift (pointer devices only, so phones never stick) */
 @media (hover: hover) and (pointer: fine) {
-  .bs, .item, .card, .value {
-    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
-  }
   .bs:hover, .item:hover, .card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-md);
