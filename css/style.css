@@ -209,8 +209,22 @@ p { max-width: 65ch; }
   cursor: pointer;
   border: 1px solid transparent;
   transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-  will-change: transform;
 }
+.btn:active { transform: scale(0.98); }
+/* hover lift + icon nudge only on real pointers, so touch never gets a stuck state */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -12px rgba(20, 14, 10, 0.55);
+    will-change: transform;
+  }
+  .btn--accent:hover { background: var(--accent-2); }
+}
+@media (hover: none) {
+  .btn:hover { transform: none; box-shadow: none; }
+  .btn:hover .btn__icon { transform: none; }
+}
+
 .btn .btn__icon {
   display: inline-flex;
   align-items: center;
@@ -221,19 +235,6 @@ p { max-width: 65ch; }
   transition: transform var(--dur) var(--ease);
 }
 .btn:hover .btn__icon { transform: translate(2px, -1px); }
-.btn:active { transform: scale(0.98); }
-/* hover lift + icon nudge only on real pointers, so touch never gets a stuck state */
-@media (hover: hover) and (pointer: fine) {
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px -12px rgba(20, 14, 10, 0.55);
-  }
-  .btn--accent:hover { background: var(--accent-2); }
-}
-@media (hover: none) {
-  .btn:hover { transform: none; box-shadow: none; }
-  .btn:hover .btn__icon { transform: none; }
-}
 
 .btn--accent { background: var(--accent); color: var(--accent-ink); box-shadow: var(--shadow-md); }
 .btn--accent:hover { background: var(--accent-2); }
@@ -414,7 +415,6 @@ p { max-width: 65ch; }
   outline-offset: 2px;
   border-radius: 6px;
 }
-html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   .ttk-toast { transition: opacity 0.2s ease; transform: none !important; }
   .ttk-toast.is-visible { transform: none !important; }

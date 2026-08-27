@@ -173,8 +173,14 @@
   }
 
   /* ---- Drawer open/close ---- */
-  function openDrawer() { if (!drawer) return; drawer.classList.add("open"); drawer.setAttribute("aria-hidden", "false"); if (backdrop) backdrop.hidden = false; if (window.__ttkLockScroll) window.__ttkLockScroll(true); if (closeBtn) closeBtn.focus(); }
-  function closeDrawer() { if (!drawer) return; drawer.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); if (backdrop) backdrop.hidden = true; if (window.__ttkLockScroll) window.__ttkLockScroll(false); }
+  var pageEls = [document.querySelector(".nav-wrap"), document.getElementById("main"), document.querySelector(".footer")];
+  function setPageInert(on) {
+    pageEls.forEach(function (el) {
+      if (el && "inert" in el) { try { el.inert = on; } catch (e) {} }
+    });
+  }
+  function openDrawer() { if (!drawer) return; drawer.classList.add("open"); drawer.setAttribute("aria-hidden", "false"); if (backdrop) backdrop.hidden = false; if (window.__ttkLockScroll) window.__ttkLockScroll(true); setPageInert(true); if (closeBtn) closeBtn.focus(); }
+  function closeDrawer() { if (!drawer) return; drawer.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); if (backdrop) backdrop.hidden = true; if (window.__ttkLockScroll) window.__ttkLockScroll(false); setPageInert(false); }
   if (fab) fab.addEventListener("click", openDrawer);
   if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
   if (backdrop) backdrop.addEventListener("click", closeDrawer);
@@ -187,9 +193,8 @@
       b.dataset.wired = "1";
       b.addEventListener("click", function (e) {
         e.preventDefault();
-        // If there are items, open the cart; else go to the menu to start one.
-        if (cart.length > 0 && drawer) { openDrawer(); }
-        else if (drawer) { openDrawer(); }
+        // Open the order drawer so the customer can review or start a list.
+        if (drawer) { openDrawer(); }
         else { window.location.href = "menu.html"; }
       });
     });
