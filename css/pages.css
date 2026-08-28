@@ -122,6 +122,39 @@
   text-align: center;
 }
 .menu-hero h1 { font-size: clamp(2.2rem, 6vw, 4rem); }
+/* "How to order" callout — makes the tap-to-add feature impossible to miss */
+.menu-howto {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  max-width: 62ch;
+  margin: 1.75rem auto 0;
+  padding: 1rem 1.2rem;
+  text-align: left;
+  background: var(--surface);
+  border: 1.5px solid var(--accent);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-sm);
+  animation: howtoPop 1.7s var(--ease) 0.45s 1;
+}
+.menu-howto__icon {
+  flex: none;
+  display: grid; place-items: center;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 6px 16px -8px rgba(176,67,28,0.7);
+}
+.menu-howto__text { margin: 0; color: var(--ink); font-size: 0.98rem; line-height: 1.55; }
+.menu-howto__text strong { color: var(--accent-2); }
+@keyframes howtoPop {
+  0% { box-shadow: 0 0 0 0 rgba(176,67,28,0.32); }
+  100% { box-shadow: 0 0 0 16px rgba(176,67,28,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-howto { animation: none; }
+}
 .cat { margin-top: var(--space-5); }
 .cat__title {
   display: flex; align-items: baseline; gap: 0.8rem;
