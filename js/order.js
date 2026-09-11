@@ -12,6 +12,7 @@
   var submit = document.getElementById("checkout-submit");
   var note = document.getElementById("order-note");
   var noteCount = document.getElementById("note-count");
+  var stockError = document.getElementById("stock-error");
   var lastSnapshot = null;
 
   function escapeHtml(value) {
@@ -24,9 +25,14 @@
     var options = item.options || {};
     var details = [];
     if (item.size) details.push(item.size);
-    if (options.sweetness) details.push(options.sweetness + " sweetness");
-    if (options.ice) details.push(options.ice + " ice");
-    if (options.extras && options.extras.length) details.push(options.extras.map(function (extra) { return extra.name; }).join(", "));
+    var values = options.values || {};
+    Object.keys(values).forEach(function (key) {
+      var choice = values[key];
+      var label = typeof choice === "string" ? choice : choice.label;
+      details.push(label + (key === "sweetness" ? " sweetness" : key === "ice" ? " ice" : ""));
+    });
+    var addOns = options.addOns || options.extras || [];
+    if (addOns.length) details.push(addOns.map(function (extra) { return extra.name || extra.label; }).join(", "));
     if (item.note) details.push("Note: " + item.note);
     return details.join(" · ");
   }
@@ -72,6 +78,13 @@
     var invalid = form.querySelector('[aria-invalid="true"]');
     if (invalid) invalid.focus();
   }
+  function syncAvailability(items) {
+    var unavailable = cartApi.getUnavailableItems ? cartApi.getUnavailableItems(items) : [];
+    if (!stockError) return unavailable;
+    stockError.hidden = !unavailable.length;
+    stockError.textContent = unavailable.length ? unavailable.map(function (item) { return item.name; }).join(", ") + (unavailable.length === 1 ? " is" : " are") + " currently unavailable. Remove " + (unavailable.length === 1 ? "it" : "them") + " from your order before sending." : "";
+    return unavailable;
+  }
 
   function createReference() {
     var random = Math.floor(Math.random() * 900 + 100);
@@ -107,6 +120,7 @@
       window.location.href = "menu.html";
       return;
     }
+    if (syncAvailability(items).length) return;
     if (!validate()) { focusFirstError(); return; }
     submit.disabled = true;
     submit.setAttribute("aria-busy", "true");
@@ -157,12 +171,15 @@
   cartApi.subscribe(function (items) {
     if (!success.hidden) return;
     renderSummary(items);
+    syncAvailability(items);
     if (!items.length) {
       checkoutView.innerHTML = '<div class="bezel"><div class="bezel__core catalog-empty"><strong>Your order is empty</strong><p>Add a drink or snack before coming back to review it.</p><a class="btn btn--accent" href="menu.html">Browse the menu <span class="btn__icon" aria-hidden="true">&#8594;</span></a></div></div>';
     }
   });
-  renderSummary(cartApi.getItems());
-  if (!cartApi.getItems().length) {
+  var initialItems = cartApi.getItems();
+  renderSummary(initialItems);
+  syncAvailability(initialItems);
+  if (!initialItems.length) {
     checkoutView.innerHTML = '<div class="bezel"><div class="bezel__core catalog-empty"><strong>Your order is empty</strong><p>Add a drink or snack before coming back to review it.</p><a class="btn btn--accent" href="menu.html">Browse the menu <span class="btn__icon" aria-hidden="true">&#8594;</span></a></div></div>';
   }
   restoreSavedOrder();

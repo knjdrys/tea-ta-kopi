@@ -1,5 +1,5 @@
 /* Tea-Ta Kopi offline shell. A cart remains local; sending still requires Messenger online. */
-const CACHE = "teata-v2";
+const CACHE = "teata-v3";
 const SHELL = [
   "index.html",
   "menu.html",

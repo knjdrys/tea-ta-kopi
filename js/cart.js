@@ -72,14 +72,35 @@
   }
   function money(value) { return "P " + Number(value || 0); }
   function cloneItems(items) { return JSON.parse(JSON.stringify(items || cart)); }
+  function slug(value) { return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
   function itemId(item) { return [item.name, item.size || "", item.price, JSON.stringify(item.options || {}), item.note || ""].join("|"); }
+  function normalizeChoice(value) {
+    if (!value) return null;
+    if (typeof value === "string") return { id: slug(value), label: value, price: 0 };
+    return { id: String(value.id || slug(value.label)), label: String(value.label || value.id || ""), price: Number(value.price) || 0 };
+  }
   function normalizeOptions(options) {
     options = options || {};
-    return {
-      sweetness: options.sweetness || "",
-      ice: options.ice || "",
-      extras: Array.isArray(options.extras) ? options.extras.map(function (extra) { return { name: String(extra.name), price: Number(extra.price) || 0 }; }) : []
-    };
+    var values = {};
+    if (options.values && typeof options.values === "object") {
+      Object.keys(options.values).forEach(function (key) {
+        var choice = normalizeChoice(options.values[key]);
+        if (choice) values[key] = choice;
+      });
+    }
+    /* Migrate the previous cart shape without losing a customer's choices. */
+    ["temperature", "sweetness", "ice", "milk", "flavor", "syrup"].forEach(function (key) {
+      if (!values[key] && options[key]) {
+        var legacyChoice = normalizeChoice(options[key]);
+        if (legacyChoice) values[key] = legacyChoice;
+      }
+    });
+    var addOns = options.addOns || options.toppings || options.extras || [];
+    if (!Array.isArray(addOns)) addOns = [];
+    addOns = addOns.map(function (extra) {
+      return { id: String(extra.id || slug(extra.name || extra.label)), name: String(extra.name || extra.label || extra.id || ""), price: Number(extra.price) || 0 };
+    }).filter(function (extra) { return extra.name; });
+    return { values: values, addOns: addOns };
   }
   function normalizeItem(item) {
     if (!item || !item.name) return null;
@@ -111,6 +132,19 @@
   function getCount(items) { return (items || cart).reduce(function (sum, item) { return sum + (item.qty || 1); }, 0); }
   function getSubtotal(items) { return (items || cart).reduce(function (sum, item) { return sum + Number(item.price || 0) * (item.qty || 1); }, 0); }
   function getItems() { return cloneItems(cart); }
+  function findCatalogProduct(item) {
+    var items = window.TTKMenu && window.TTKMenu.items;
+    if (!items) return null;
+    return items.find(function (product) {
+      return product.name === item.name && (!item.cat || product.category === item.cat);
+    }) || null;
+  }
+  function getUnavailableItems(items) {
+    return (items || cart).filter(function (item) {
+      var product = findCatalogProduct(item);
+      return product && product.available === false;
+    });
+  }
 
   function notify() {
     renderCart();
@@ -125,6 +159,11 @@
     return null;
   }
   function addItem(item) {
+    var product = findCatalogProduct(item || {});
+    if (product && product.available === false) {
+      showToast(product.name + " unavailable", "Please choose another item");
+      return;
+    }
     var normalized = normalizeItem(item);
     if (!normalized) return;
     var existing = findMatching(normalized);
@@ -155,12 +194,25 @@
   function customSummary(item) {
     var options = normalizeOptions(item.options);
     var details = [];
-    if (item.size) details.push(item.size);
-    if (options.sweetness) details.push(options.sweetness + " sweetness");
-    if (options.ice) details.push(options.ice + " ice");
-    if (options.extras.length) details.push(options.extras.map(function (extra) { return extra.name; }).join(", "));
+    Object.keys(options.values).forEach(function (key) {
+      var choice = options.values[key];
+      var label = key === "sweetness" ? " sweetness" : key === "ice" ? " ice" : "";
+      details.push(choice.label + label);
+    });
+    if (options.addOns.length) details.push(options.addOns.map(function (extra) { return extra.name; }).join(", "));
     if (item.note) details.push("Note: " + item.note);
     return details.join(" · ");
+  }
+  function detailSummary(item) {
+    var details = [];
+    if (item.size) details.push(item.size);
+    var custom = customSummary(item);
+    if (custom) details.push(custom);
+    return details.join(" · ");
+  }
+  function canEditItem(item) {
+    var product = findCatalogProduct(item);
+    return Boolean(product && product.available !== false && product.customizable);
   }
 
   function renderCart() {
@@ -180,13 +232,17 @@
     }
 
     body.innerHTML = cart.map(function (item, index) {
-      var detail = customSummary(item);
-      var edit = item.options && (item.options.sweetness || item.options.ice || item.options.extras.length || item.note) ? '<button class="cart-row__edit" type="button" data-edit-index="' + index + '">Edit</button>' : "";
-      return '<div class="cart-row"><div class="cart-row__info"><div class="cart-row__name">' + escapeHtml(item.name) + '</div>' + (detail ? '<div class="cart-row__details">' + escapeHtml(detail) + '</div>' : '') + '<div class="cart-row__actions"><div class="qty-control" aria-label="Quantity for ' + escapeHtml(item.name) + '"><button type="button" data-cart-action="decrease" data-index="' + index + '" aria-label="Decrease quantity">&minus;</button><span>' + item.qty + '</span><button type="button" data-cart-action="increase" data-index="' + index + '" aria-label="Increase quantity">+</button></div>' + edit + '<button class="cart-row__remove" type="button" data-cart-action="remove" data-index="' + index + '">Remove</button></div></div><span class="cart-row__total">' + money(item.price * item.qty) + '</span></div>';
+      var unavailable = getUnavailableItems([item]).length > 0;
+      var detail = detailSummary(item);
+      if (unavailable) detail = "Currently unavailable" + (detail ? " · " + detail : "");
+      var edit = canEditItem(item) ? '<button class="cart-row__edit" type="button" data-edit-index="' + index + '">Edit</button>' : "";
+      return '<div class="cart-row' + (unavailable ? ' cart-row--unavailable' : '') + '"><div class="cart-row__info"><div class="cart-row__name">' + escapeHtml(item.name) + '</div>' + (detail ? '<div class="cart-row__details">' + escapeHtml(detail) + '</div>' : '') + '<div class="cart-row__actions"><div class="qty-control" aria-label="Quantity for ' + escapeHtml(item.name) + '"><button type="button" data-cart-action="decrease" data-index="' + index + '" aria-label="Decrease quantity">&minus;</button><span>' + item.qty + '</span><button type="button" data-cart-action="increase" data-index="' + index + '" aria-label="Increase quantity">+</button></div>' + edit + '<button class="cart-row__remove" type="button" data-cart-action="remove" data-index="' + index + '">Remove</button></div></div><span class="cart-row__total">' + money(item.price * item.qty) + '</span></div>';
     }).join("");
 
+    var unavailableItems = getUnavailableItems();
     var subtotal = getSubtotal();
-    foot.innerHTML = '<div class="cart-summary"><div class="summary-line"><span>Items</span><span>' + count + '</span></div><div class="summary-line"><span>Pickup</span><span>No extra fee</span></div><div class="summary-line summary-line--total"><span>Total</span><strong>' + money(subtotal) + '</strong></div></div><a class="btn btn--accent btn--block" id="cart-review" href="order.html">Review order <span class="btn__icon" aria-hidden="true">&#8594;</span></a><p class="cart-foot-note">Your order is confirmed by the café in Messenger.</p><button class="cart-clear" id="cart-clear" type="button">Clear order</button>';
+    var availabilityMessage = unavailableItems.length ? '<p class="cart-availability" role="alert">One item is currently unavailable. Remove it before sending your order.</p>' : "";
+    foot.innerHTML = '<div class="cart-summary"><div class="summary-line"><span>Items</span><span>' + count + '</span></div><div class="summary-line"><span>Pickup</span><span>No extra fee</span></div><div class="summary-line summary-line--total"><span>Total</span><strong>' + money(subtotal) + '</strong></div></div>' + availabilityMessage + '<a class="btn btn--accent btn--block" id="cart-review" href="order.html">Review order <span class="btn__icon" aria-hidden="true">&#8594;</span></a><p class="cart-foot-note">Your order is confirmed by the café in Messenger.</p><button class="cart-clear" id="cart-clear" type="button">Clear order</button>';
     clearButton = document.getElementById("cart-clear");
     if (clearButton) clearButton.addEventListener("click", function () {
       if (window.confirm("Clear everything from your order?")) clearCart();
@@ -232,26 +288,60 @@
     if (drawerPreviousFocus && typeof drawerPreviousFocus.focus === "function") drawerPreviousFocus.focus();
   }
 
-  function extrasHtml(selected) {
-    var picked = (selected || []).map(function (extra) { return extra.name; });
-    var extras = [{ name: "Extra Pearl", price: 10 }, { name: "Nata de Coco", price: 10 }, { name: "Strawberry Puree", price: 15 }];
-    return extras.map(function (extra, index) {
-      var id = "extra-" + modalCounter + "-" + index;
-      var checked = picked.indexOf(extra.name) !== -1 ? " checked" : "";
-      return '<label class="check-row" for="' + id + '"><span class="check-row__copy"><input id="' + id + '" type="checkbox" name="extra" value="' + escapeHtml(extra.name) + '" data-price="' + extra.price + '"' + checked + '><span>' + escapeHtml(extra.name) + '</span></span><span class="check-row__price">+' + money(extra.price) + '</span></label>';
-    }).join("");
+  function selectedOptionIds(current, group) {
+    var options = current ? normalizeOptions(current.options) : { values: {}, addOns: [] };
+    if (group.type === "multi") return options.addOns.map(function (extra) { return extra.id; });
+    return options.values[group.id] ? [options.values[group.id].id] : [];
   }
-  function radioChoices(name, values, selected, prefix, showPrices) {
-    return values.map(function (value, index) {
-      var id = prefix + "-" + index;
-      var selectedValue = typeof selected === "object" ? selected.value : selected;
-      var checked = (selectedValue || values[0].value) === value.value ? " checked" : "";
-      var price = showPrices && value.price ? '<span class="choice__meta">' + money(value.price) + '</span>' : "";
-      return '<label class="choice" for="' + id + '"><span class="choice__name">' + escapeHtml(value.label) + '</span>' + price + '<input id="' + id + '" type="radio" name="' + name + '" value="' + escapeHtml(value.value) + '" data-price="' + (value.price || 0) + '"' + checked + '></label>';
-    }).join("");
+  function optionPriceLabel(option) {
+    return option.price ? "+ " + money(option.price) : "Included";
+  }
+  function choiceMarkup(name, option, selected, index, inputType) {
+    var id = "choice-" + modalCounter + "-" + slug(name) + "-" + index;
+    var checked = selected.indexOf(option.id) !== -1 ? " checked" : "";
+    return '<label class="choice" for="' + id + '"><span class="choice__name">' + escapeHtml(option.label) + '</span><span class="choice__meta">' + escapeHtml(optionPriceLabel(option)) + '</span><input id="' + id + '" type="' + inputType + '" name="' + escapeHtml(name) + '" value="' + escapeHtml(option.id) + '" data-option-label="' + escapeHtml(option.label) + '" data-price="' + Number(option.price || 0) + '"' + checked + '></label>';
+  }
+  function renderSizeGroup(product, selectedSize) {
+    if (product.sizes.length === 1) {
+      return '<section class="modifier-section modifier-section--size"><div class="modifier-section__heading"><div><span class="modifier-section__title">Size</span><span class="modifier-section__hint">Standard serving</span></div><span class="modifier-section__summary">' + escapeHtml(product.sizes[0].label === "Single" ? "Standard" : product.sizes[0].label) + '</span></div><input type="hidden" name="size" value="' + escapeHtml(product.sizes[0].label) + '"></section>';
+    }
+    var lowest = product.sizes.reduce(function (min, size) { return Math.min(min, size.price); }, Infinity);
+    var options = product.sizes.map(function (size) {
+      var delta = size.price - lowest;
+      return { id: size.label, label: size.label, price: delta, absolutePrice: size.price };
+    });
+    var html = '<section class="modifier-section modifier-section--size"><div class="modifier-section__heading"><div><span class="modifier-section__title">Size <span class="required-mark">Required</span></span><span class="modifier-section__hint">Price shown for each size</span></div><span class="modifier-section__summary" data-group-summary="size"></span></div><div class="choice-grid">';
+    options.forEach(function (option, index) {
+      var id = "size-" + modalCounter + "-" + index;
+      var checked = option.id === selectedSize ? " checked" : "";
+      var priceText = option.price ? "+ " + money(option.price) : money(option.absolutePrice);
+      html += '<label class="choice" for="' + id + '"><span class="choice__name">' + escapeHtml(option.label) + '</span><span class="choice__meta">' + escapeHtml(priceText) + '</span><input id="' + id + '" type="radio" name="size" value="' + escapeHtml(option.id) + '" data-absolute-price="' + option.absolutePrice + '"' + checked + '></label>';
+    });
+    return html + '</div></section>';
+  }
+  function renderModifierGroup(group, current) {
+    var available = group.options.filter(function (option) { return option.available !== false; });
+    if (!available.length) return "";
+    var name = "modifier-" + group.id;
+    var selected = selectedOptionIds(current, group);
+    if (group.type === "single" && !selected.length && group.defaultId) selected = [group.defaultId];
+    var inputType = group.type === "multi" ? "checkbox" : "radio";
+    var choices = available.map(function (option, index) { return choiceMarkup(name, option, selected, index, inputType); }).join("");
+    var optional = group.optional ? '<span class="modifier-section__hint">Optional</span>' : '<span class="modifier-section__hint">Choose one</span>';
+    if (group.type === "multi") {
+      return '<details class="modifier-section modifier-section--optional" data-modifier-details="' + escapeHtml(group.id) + '"><summary><span><span class="modifier-section__title">' + escapeHtml(group.label) + '</span>' + optional + '</span><span class="modifier-section__summary" data-group-summary="' + escapeHtml(group.id) + '">None</span></summary><div class="choice-grid">' + choices + '</div></details>';
+    }
+    return '<section class="modifier-section"><div class="modifier-section__heading"><div><span class="modifier-section__title">' + escapeHtml(group.label) + '</span>' + optional + '</div><span class="modifier-section__summary" data-group-summary="' + escapeHtml(group.id) + '"></span></div><div class="choice-grid">' + choices + '</div></section>';
+  }
+  function selectedInputs(form, name) {
+    return Array.prototype.slice.call(form.querySelectorAll('input[name="' + name + '"]:checked'));
   }
   function openCustomizer(product, editIndex) {
     if (!modal || !modalPanel || !product) return;
+    if (product.available === false) {
+      showToast(product.name + " unavailable", "Please choose another item");
+      return;
+    }
     closeDrawer();
     modalCounter += 1;
     var editing = typeof editIndex === "number" && cart[editIndex];
@@ -259,11 +349,11 @@
     modalState = { product: product, editIndex: editing ? editIndex : null, quantity: current ? current.qty : 1 };
     modalPreviousFocus = document.activeElement;
     var selectedSize = current && current.size ? current.size : product.sizes[0].label;
-    var selectedOptions = normalizeOptions(current && current.options);
-    var sizeValues = product.sizes.map(function (size) { return { label: size.label === "Single" ? "Standard" : size.label, value: size.label, price: size.price }; });
-    var sizeMarkup = product.sizes.length > 1 ? '<div class="choice-group"><span class="choice-group__label">Size <span class="field-help">required</span></span><div class="choice-grid">' + radioChoices("size", sizeValues, selectedSize, "size-" + modalCounter, true) + '</div></div>' : '<div class="choice-group"><span class="choice-group__label">Size</span><p class="order-note">Standard serving</p><input type="hidden" name="size" value="' + escapeHtml(product.sizes[0].label) + '"></div>';
-    var drinkOptions = product.customizable ? '<div class="choice-group"><span class="choice-group__label">Sweetness</span><div class="choice-grid">' + radioChoices("sweetness", [{ label: "Regular", value: "Regular" }, { label: "Less", value: "Less" }, { label: "Extra", value: "Extra" }], selectedOptions.sweetness || "Regular", "sweetness-" + modalCounter, false) + '</div></div><div class="choice-group"><span class="choice-group__label">Ice level</span><div class="choice-grid">' + radioChoices("ice", [{ label: "Regular", value: "Regular" }, { label: "Less", value: "Less" }, { label: "No ice", value: "No" }], selectedOptions.ice || "Regular", "ice-" + modalCounter, false) + '</div></div><div class="choice-group"><span class="choice-group__label">Optional extras</span><div class="addon-options">' + extrasHtml(selectedOptions.extras) + '</div></div>' : "";
-    modalPanel.innerHTML = '<header class="product-modal__header"><div><p class="product-modal__category">' + escapeHtml(product.category) + '</p><h2 id="product-modal-title">' + escapeHtml(product.name) + '</h2><p class="product-modal__description">' + escapeHtml(product.description || "Made fresh to order.") + '</p></div><button class="product-modal__close" type="button" data-modal-close aria-label="Close customizer">&times;</button></header><form class="product-modal__form" id="customizer-form">' + sizeMarkup + drinkOptions + '<div class="choice-group"><label class="choice-group__label" for="custom-note">Special instructions <span class="field-help">optional</span></label><textarea id="custom-note" name="note" maxlength="180" placeholder="Anything the café should know?">' + escapeHtml(current && current.note || "") + '</textarea></div><div class="modal-quantity"><span class="choice-group__label">Quantity</span><div class="qty-control"><button type="button" data-modal-quantity="decrease" aria-label="Decrease quantity">&minus;</button><span id="modal-quantity-value">' + modalState.quantity + '</span><button type="button" data-modal-quantity="increase" aria-label="Increase quantity">+</button></div></div><div class="product-modal__footer"><span class="modal-price" id="modal-price" aria-live="polite">' + money(product.sizes[0].price) + '</span><button class="btn btn--accent" type="submit">' + (editing ? "Save changes" : "Add to order") + ' <span class="btn__icon" aria-hidden="true">&#8594;</span></button></div></form>';
+    var customization = product.customization || { serviceNote: "Served chilled", modifierGroups: [] };
+    var groupsMarkup = customization.modifierGroups.map(function (group) { return renderModifierGroup(group, current); }).join("");
+    var ingredients = (product.ingredients || []).join(" · ");
+    var visualMark = product.category === "Iced Coffee" ? "CO" : product.category === "Milk Tea" ? "MT" : product.category === "Shake" ? "SH" : product.category === "Fruit Soda" ? "FS" : product.category === "Non Coffee" ? "NC" : product.category === "Fruit Tea" ? "FT" : product.category === "Yakult Series" ? "YK" : "TTK";
+    modalPanel.innerHTML = '<header class="product-modal__header"><div class="product-modal__hero"><div class="product-modal__visual" aria-hidden="true"><span>' + visualMark + '</span><small>' + escapeHtml(customization.serviceNote || "Made fresh") + '</small></div><div><p class="product-modal__category">' + escapeHtml(product.category) + '</p><h2 id="product-modal-title">' + escapeHtml(product.name) + '</h2><p class="product-modal__description">' + escapeHtml(product.description || "Made fresh to order.") + '</p><p class="product-modal__ingredients">' + escapeHtml(ingredients) + '</p></div></div><button class="product-modal__close" type="button" data-modal-close aria-label="Close customizer">&times;</button></header><form class="product-modal__form" id="customizer-form">' + renderSizeGroup(product, selectedSize) + groupsMarkup + '<details class="modifier-section modifier-section--optional"><summary><span><span class="modifier-section__title">Special instructions</span><span class="modifier-section__hint">Optional</span></span><span class="modifier-section__summary">Add a note</span></summary><textarea id="custom-note" name="note" maxlength="180" placeholder="Anything the café should know?">' + escapeHtml(current && current.note || "") + '</textarea></details><div class="modal-quantity"><span class="choice-group__label">Quantity</span><div class="qty-control"><button type="button" data-modal-quantity="decrease" aria-label="Decrease quantity">&minus;</button><span id="modal-quantity-value">' + modalState.quantity + '</span><button type="button" data-modal-quantity="increase" aria-label="Increase quantity">+</button></div></div><div class="product-modal__footer"><span class="modal-price" id="modal-price" aria-live="polite">' + money(product.sizes[0].price * modalState.quantity) + '</span><button class="btn btn--accent" type="submit">' + (editing ? "Save changes" : "Add to order") + ' <span class="btn__icon" aria-hidden="true">&#8594;</span></button></div></form>';
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
     if (window.__ttkLockScroll) window.__ttkLockScroll(true);
@@ -272,9 +362,16 @@
     if (close) close.focus();
   }
 
-  function readRadio(form, name) {
-    var input = form.querySelector('input[name="' + name + '"]:checked');
+  function selectedSize(form) {
+    var input = form.querySelector('input[name="size"]:checked') || form.querySelector('input[name="size"]');
     return input ? input.value : "";
+  }
+  function updateModifierSummary(form, group) {
+    var selected = selectedInputs(form, "modifier-" + group.id);
+    var summary = form.querySelector('[data-group-summary="' + group.id + '"]');
+    if (!summary) return;
+    if (!selected.length) { summary.textContent = "None"; return; }
+    summary.textContent = selected.map(function (input) { return input.getAttribute("data-option-label"); }).join(", ");
   }
   function updateModalPrice() {
     if (!modalState || !modalPanel) return;
@@ -284,10 +381,19 @@
       var input = choice.querySelector("input");
       choice.classList.toggle("is-selected", Boolean(input && input.checked));
     });
-    var size = readRadio(form, "size") || (form.querySelector('input[name="size"]') || {}).value || modalState.product.sizes[0].label;
-    var sizeData = modalState.product.sizes.find(function (option) { return option.label === size; }) || modalState.product.sizes[0];
-    var extrasTotal = Array.prototype.slice.call(form.querySelectorAll('input[name="extra"]:checked')).reduce(function (sum, input) { return sum + Number(input.getAttribute("data-price") || 0); }, 0);
+    var product = modalState.product;
+    var size = selectedSize(form) || product.sizes[0].label;
+    var sizeData = product.sizes.find(function (option) { return option.label === size; }) || product.sizes[0];
+    var extrasTotal = 0;
+    (product.customization && product.customization.modifierGroups || []).forEach(function (group) {
+      updateModifierSummary(form, group);
+      if (group.type === "multi") {
+        selectedInputs(form, "modifier-" + group.id).forEach(function (input) { extrasTotal += Number(input.getAttribute("data-price") || 0); });
+      }
+    });
     var total = (sizeData.price + extrasTotal) * modalState.quantity;
+    var sizeSummary = form.querySelector('[data-group-summary="size"]');
+    if (sizeSummary) sizeSummary.textContent = size;
     var price = document.getElementById("modal-price");
     if (price) price.textContent = money(total);
   }
@@ -302,12 +408,20 @@
   function submitCustomizer(form) {
     if (!modalState) return;
     var product = modalState.product;
-    var size = readRadio(form, "size") || (form.querySelector('input[name="size"]') || {}).value || product.sizes[0].label;
+    var size = selectedSize(form) || product.sizes[0].label;
     var sizeData = product.sizes.find(function (option) { return option.label === size; }) || product.sizes[0];
-    var extras = Array.prototype.slice.call(form.querySelectorAll('input[name="extra"]:checked')).map(function (input) { return { name: input.value, price: Number(input.getAttribute("data-price") || 0) }; });
-    var extrasTotal = extras.reduce(function (sum, extra) { return sum + extra.price; }, 0);
+    var values = {};
+    var addOns = [];
+    (product.customization && product.customization.modifierGroups || []).forEach(function (group) {
+      selectedInputs(form, "modifier-" + group.id).forEach(function (input) {
+        var choice = { id: input.value, label: input.getAttribute("data-option-label") || input.value, price: Number(input.getAttribute("data-price") || 0) };
+        if (group.type === "multi") addOns.push({ id: choice.id, name: choice.label, price: choice.price });
+        else values[group.id] = choice;
+      });
+    });
+    var extrasTotal = addOns.reduce(function (sum, extra) { return sum + extra.price; }, 0);
     var wasEditing = modalState.editIndex !== null && cart[modalState.editIndex];
-    var item = { name: product.name, size: size === "Single" ? "" : size, price: sizeData.price + extrasTotal, basePrice: sizeData.price, cat: product.category, qty: modalState.quantity, options: { sweetness: readRadio(form, "sweetness"), ice: readRadio(form, "ice"), extras: extras }, note: (form.querySelector('[name="note"]') || {}).value || "" };
+    var item = { name: product.name, size: size === "Single" ? "" : size, price: sizeData.price + extrasTotal, basePrice: sizeData.price, cat: product.category, qty: modalState.quantity, options: { values: values, addOns: addOns }, note: (form.querySelector('[name="note"]') || {}).value || "" };
     if (wasEditing) cart[modalState.editIndex] = normalizeItem(item);
     else cart.push(normalizeItem(item));
     saveCart();
@@ -375,7 +489,7 @@
     var edit = event.target.closest("[data-edit-index]");
     if (edit) {
       var editIndex = parseInt(edit.getAttribute("data-edit-index"), 10);
-      var product = window.TTKMenu && window.TTKMenu.items ? window.TTKMenu.items.find(function (item) { return item.name === cart[editIndex].name && item.category === cart[editIndex].cat; }) : null;
+      var product = cart[editIndex] ? findCatalogProduct(cart[editIndex]) : null;
       if (product) openCustomizer(product, editIndex);
       return;
     }
@@ -433,6 +547,7 @@
     getItems: getItems,
     getCount: getCount,
     getSubtotal: getSubtotal,
+    getUnavailableItems: function (items) { return cloneItems(getUnavailableItems(items)); },
     subscribe: function (callback) { if (typeof callback === "function") subscribers.push(callback); return function () { subscribers = subscribers.filter(function (item) { return item !== callback; }); }; },
     openDrawer: openDrawer,
     closeDrawer: closeDrawer,

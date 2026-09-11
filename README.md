@@ -22,7 +22,7 @@ The site supports pickup only because no verified delivery or payment integratio
 - `contact.html` - hours, location, map, and pickup guidance
 - `js/menu-data.js` - single source of truth for menu items, sizes, prices, availability, and descriptions
 - `js/menu.js` - catalog rendering, search, filters, and product entry points
-- `js/cart.js` - accessible cart drawer, product customizer, local persistence, quantity controls, and Messenger link generation
+- `js/cart.js` - accessible cart drawer, data-driven product customizer, local persistence, quantity controls, and Messenger link generation
 - `js/order.js` - checkout validation, local order reference, and confirmation state
 - `js/main.js` - theme preference, mobile navigation, reveal motion, and offline notice
 - `css/tokens.css` - shared color, type, spacing, radius, shadow, and motion tokens
@@ -44,6 +44,12 @@ drink("New drink", "Milk Tea", [
 ```
 
 If a size, price, or modifier is not offered in-store, do not add it to the data. The café still confirms every order in Messenger.
+
+### Smart modifier model
+
+Each product receives a `customization` object with a service note, size options, and only the relevant modifier groups. Coffee exposes sweetness and ice; milk tea exposes sweetness, ice, and the available pearl or nata toppings; shakes keep their blended recipe and only expose a strawberry finish where it makes sense; fruit drinks expose fruit-compatible toppings; and unrelated products never receive random puree or milk controls. Each paid option carries its own price and `available` flag. The `audit` array on `window.TTKMenu` makes the per-product decision set inspectable for future staff tooling.
+
+To add a modifier later, update a definition in `js/menu-data.js` and attach it to the appropriate product profile. The customizer, price calculation, cart summary, and Messenger text render from that model instead of category-specific conditionals in the UI.
 
 ## Updating café details
 

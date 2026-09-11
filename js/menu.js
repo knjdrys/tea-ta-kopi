@@ -11,8 +11,6 @@
 
   var activeCategory = "all";
   var query = "";
-  var categoryByName = {};
-  source.categories.forEach(function (category) { categoryByName[category.name] = category; });
 
   function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, function (character) {
@@ -48,7 +46,6 @@
 
   function renderProduct(item) {
     var unavailable = item.available === false;
-    var prices = item.sizes.map(function (size) { return money(size.price); });
     var from = lowestPrice(item);
     var priceLabel = item.sizes.length > 1 ? "from " + money(from) : money(from);
     var badge = item.bestSeller ? '<span class="best-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4z"/></svg> Favorite</span>' : "";
@@ -148,13 +145,14 @@
     var product = source.items.find(function (item) { return item.id === id; });
     if (!product) return;
     var card = null;
-    catalog.querySelectorAll("[data-product-id]").forEach(function (candidate) {
+    catalog.querySelectorAll(".product-card").forEach(function (candidate) {
       if (candidate.getAttribute("data-product-id") === product.id) card = candidate;
     });
     if (card) {
       if (card.scrollIntoView) card.scrollIntoView({ block: "center", behavior: "smooth" });
       card.classList.add("is-highlighted");
       setTimeout(function () { card.classList.remove("is-highlighted"); }, 1800);
+      if (window.TTKCart) setTimeout(function () { window.TTKCart.openCustomizer(product); }, 260);
     }
   }
 
