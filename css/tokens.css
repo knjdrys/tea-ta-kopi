@@ -1,11 +1,4 @@
-/* ============================================================
-   Tea-Ta Kopi - Design Tokens (single source of truth)
-   Taste skill §2/§3: one accent locked, light + dark, no pure
-   #000/#fff, no AI-purple, no banned beige+brass hexes.
-   Fonts self-hosted (no Google <link> in prod).
-   ============================================================ */
-
-/* ---- Fonts (self-hosted woff2) ---- */
+/* Tea-Ta Kopi design tokens. Warm, high-contrast, and shared by every route. */
 @font-face {
   font-family: "Sora";
   font-style: normal;
@@ -42,83 +35,64 @@
   src: url("../fonts/space-mono-700.woff2") format("woff2");
 }
 
-/* ---- Light theme (default) ---- */
 :root {
-  /* Surfaces: warm off-white, never pure #fff */
-  --bg:          #FCFBF9;
-  --surface:     #F4F1EC;
-  --surface-2:   #ECE7DF;
-
-  /* Ink: warm near-black, never #000 */
-  --ink:         #1B1712;
-  --ink-soft:    #5B554C;
-
-  /* Lines */
-  --line:        #E2DCD2;
-
-  /* ONE accent, locked across the whole site (clay / terracotta).
-     Darkened from #C2603C so white text clears WCAG AA (5.7:1). */
-  --accent:      #B0431C;
-  --accent-2:    #8C3A1B;   /* prices on surface-2 (6.2:1) */
-  --accent-ink:  #FFFFFF;
-
-  /* Tinted elevation (no pure-black drop shadows) */
-  --shadow-sm:   0 1px 2px rgba(27, 23, 18, 0.06);
-  --shadow-md:   0 10px 30px -12px rgba(27, 23, 18, 0.18);
-  --shadow-lg:   0 24px 60px -20px rgba(27, 23, 18, 0.26);
-
-  /* Inner highlight for Double-Bezel cores */
-  --bezel-hi:   inset 0 1px 0 rgba(255, 255, 255, 0.55);
-
-  /* Type families */
+  --bg: #fcfbf9;
+  --surface: #f5f1eb;
+  --surface-2: #ebe5dc;
+  --surface-3: #e3dbd0;
+  --ink: #1b1712;
+  --ink-soft: #635b50;
+  --ink-faint: #8b8174;
+  --line: #ded6ca;
+  --accent: #a84422;
+  --accent-2: #883719;
+  --accent-soft: #f2d9cc;
+  --accent-ink: #fff8f1;
+  --success: #2e6b51;
+  --danger: #a33c2d;
+  --focus: #a84422;
+  --shadow-sm: 0 1px 2px rgba(36, 27, 18, 0.06);
+  --shadow-md: 0 14px 32px -18px rgba(36, 27, 18, 0.28);
+  --shadow-lg: 0 26px 64px -22px rgba(36, 27, 18, 0.32);
   --font-display: "Sora", system-ui, sans-serif;
-  --font-body:    "Sora", system-ui, sans-serif;
-  --font-mono:    "Space Mono", ui-monospace, monospace;
-
-  /* Spacing scale */
+  --font-body: "Sora", system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
   --space-1: 0.5rem;
   --space-2: 1rem;
   --space-3: 1.5rem;
   --space-4: 2.5rem;
   --space-5: 4rem;
   --space-6: 6.5rem;
-
-  /* Radii - one consistent system (taste §4.4) */
-  --r-pill:  999px;
-  --r-card:  16px;
-  --r-img:   16px;
-
-  /* Motion - fluid, never linear/ease-in-out (high-end §5) */
+  --r-pill: 999px;
+  --r-card: 18px;
+  --r-small: 12px;
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
-  --dur: 0.6s;
-
-  /* Layout */
-  --maxw: 1200px;
+  --dur: 260ms;
+  --maxw: 1180px;
   --nav-h: 64px;
-
-  /* Grain overlay opacity */
-  --grain: 0.035;
+  --grain: 0.025;
+  color-scheme: light;
 }
 
-/* ---- Dark theme ---- */
 [data-theme="dark"] {
-  --bg:          #15110C;
-  --surface:     #1E190F;
-  --surface-2:   #271F14;
-
-  --ink:         #F3EEE4;
-  --ink-soft:    #B7AE9F;
-
-  --line:        #2E271C;
-
-  --accent:      #D9744E;   /* brighter clay for dark contrast */
-  --accent-2:    #E8865F;
-  --accent-ink:  #1B1206;
-
-  --shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md:   0 14px 36px -14px rgba(0, 0, 0, 0.6);
-  --shadow-lg:   0 28px 70px -22px rgba(0, 0, 0, 0.7);
-
-  --bezel-hi:   inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --grain: 0.05;
+  --bg: #17120d;
+  --surface: #211a13;
+  --surface-2: #2b2118;
+  --surface-3: #382a1e;
+  --ink: #f5eee4;
+  --ink-soft: #c1b5a4;
+  --ink-faint: #9d8f7e;
+  --line: #433528;
+  --accent: #e08057;
+  --accent-2: #f09a70;
+  --accent-soft: #533022;
+  --accent-ink: #25150c;
+  --success: #83c29e;
+  --danger: #ed8c79;
+  --focus: #f09a70;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 18px 40px -20px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 30px 70px -24px rgba(0, 0, 0, 0.78);
+  --grain: 0.04;
+  color-scheme: dark;
 }

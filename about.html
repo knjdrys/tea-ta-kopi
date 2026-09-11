@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315110C'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' fill='%23D9744E' transform='rotate(-20 16 16)'/%3E%3Cpath d='M16 7 Q16 16 16 25' stroke='%2315110C' stroke-width='1.6' fill='none'/%3E%3C/svg%3E" />
-  <title>About - Tea-Ta Kopi | Our Story</title>
-  <meta name="description" content="The story behind Tea-Ta Kopi, a neighborhood coffee and milk tea spot in Dolores, Capas, Tarlac, serving the community since 2024." />
-  <meta name="theme-color" content="#B0431C" />
+  <title>Our story | Tea-Ta Kopi</title>
+  <meta name="description" content="The story of Tea-Ta Kopi, from a small palamig store in 2016 to a neighborhood cafe in Dolores, Capas, Tarlac." />
+  <meta name="theme-color" content="#a84422" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317110d'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' fill='%23e08057' transform='rotate(-20 16 16)'/%3E%3Cpath d='M16 7 Q16 16 16 25' stroke='%2317110d' stroke-width='1.6' fill='none'/%3E%3C/svg%3E" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/style.css" />
@@ -14,131 +14,21 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <div class="nav-wrap">
-    <nav class="nav" aria-label="Primary">
-      <a class="nav__brand" href="index.html">
-        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="34" height="34" />
-        <span>Tea-Ta Kopi</span>
-      </a>
-      <div class="nav__links">
-        <a href="index.html">Home</a>
-        <a href="menu.html">Menu</a>
-        <a href="about.html" class="is-active">About</a>
-        <a href="contact.html">Visit</a>
-      </div>
-      <div class="nav__right">
-        <a class="btn btn--accent js-order" href="contact.html#order">
-          Message us to order
-          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark mode">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
-        </button>
-        <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay"><span></span></button>
-      </div>
-    </nav>
-  </div>
-  <div class="nav__overlay" id="nav-overlay">
-    <a href="index.html">Home</a>
-    <a href="menu.html">Menu</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Visit</a>
-    <a class="btn btn--accent js-order" href="contact.html#order" style="align-self:flex-start;margin-top:1rem;">Message us to order<span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-  </div>
+  <div class="site-header-wrap"><header class="site-header"><a class="site-brand" href="index.html" aria-label="Tea-Ta Kopi home"><img src="assets/logo-lineart.png" alt="" width="34" height="34" /><span>Tea-Ta Kopi</span></a><nav class="site-nav" aria-label="Primary navigation"><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html" class="is-active" aria-current="page">Our story</a><a href="contact.html">Visit</a></nav><div class="header-actions"><a class="btn btn--accent btn--small header-order js-order" href="menu.html">Order now <span class="btn__icon" aria-hidden="true">&#8599;</span></a><button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch theme"><svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg></button><button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><span></span></button></div></header></div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" aria-hidden="true"><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html" class="is-active" aria-current="page">Our story</a><a href="contact.html">Visit</a><a class="btn btn--accent js-order" href="menu.html">Order now <span class="btn__icon" aria-hidden="true">&#8599;</span></a></nav>
 
   <main id="main">
-    <section class="menu-hero container">
-    <h1 data-reveal>Our story</h1>
-    <p class="lede" style="margin:0.75rem auto 0;" data-reveal>A small neighborhood spot built around good drinks and a warm welcome.</p>
-      <div style="margin-top:1.5rem;" data-reveal>
-        <a class="btn btn--accent js-order" href="contact.html#order">Message us to order
-          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-      </div>
-    </section>
-
-    <div class="container" style="padding-bottom:var(--space-5);">
-      <!-- Origin story -->
-      <section class="bezel" data-reveal>
-        <div class="bezel__core story">
-          <p class="story__eyebrow">Our story</p>
-          <h2 style="font-size:clamp(1.7rem,4vw,2.6rem);margin:0.3rem 0 1.5rem;">It Started Way Back in 2016</h2>
-          <p>Tea-Ta Kopi began in 2016 as a small palamig store in Dolores, Capas.</p>
-          <p>At the time, things were simple. People passing by would stop to buy a cold drink before continuing on their way. There was no café or elaborate setup, just refreshing palamig for anyone looking to cool down from the heat.</p>
-          <p>As time went on, we started offering more than palamig. We added shakes, fries, and siomai, giving our customers more choices to enjoy alongside their drinks. What began as a small neighborhood store slowly became a familiar spot for people looking for something refreshing and satisfying.</p>
-          <p>For years, that little store continued serving the community while growing little by little.</p>
-          <p>Then, in 2024, things began to change.</p>
-          <p>The small palamig store grew into Tea-Ta Kopi, a café where we could offer even more. We started serving coffee, milk tea, and other drinks while continuing to offer favorites like shakes, fries, and siomai. More than just a place to grab a drink or snack, we wanted Tea-Ta Kopi to be a place where people could take their time, sit for a while, and enjoy good food and drinks together.</p>
-          <p>It may have started small, but we're proud of how far it has come.</p>
-          <p>From a simple palamig store in 2016 to the Tea-Ta Kopi you see today, we're still doing what we've always wanted to do: serve good drinks and satisfying snacks, one order at a time.</p>
-          <p>And we're happy to have you here.</p>
-        </div>
-      </section>
-
-      <!-- Story split -->
-      <section class="split" style="margin-top:var(--space-5);" data-reveal>
-        <div class="split__media">
-          <img src="assets/storefront-night.jpg" alt="Tea-Ta Kopi storefront and seating at night" width="800" height="1000" />
-        </div>
-        <div>
-          <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);margin:0.4rem 0 0.8rem;">The Tea-Ta We Know Today</h2>
-          <p style="font-weight:700;font-size:1.1rem;margin:0 0 1rem;">A Little Place for a Little Break</p>
-          <p class="lede">After starting out as a small palamig store, Tea-Ta Kopi eventually grew into the café you see today.</p>
-          <p style="margin-top:1rem;color:var(--ink-soft);">We kept the things that made us start in the first place: refreshing drinks, simple choices, and a place that's easy to come by. Then we added more along the way, from coffee and milk tea to shakes, fruit tea, and snacks.</p>
-          <p style="margin-top:1rem;color:var(--ink-soft);">Whether you're dropping by to grab your usual, taking a quick break, or just looking for something to sip on, there's a little something waiting for you here.</p>
-          <p style="margin-top:1rem;color:var(--ink-soft);">We're still a small neighborhood café in Dolores, Capas. Nothing too fancy, and that's exactly how we like it.</p>
-          <p style="margin-top:1.25rem;font-weight:700;font-size:1.05rem;">Just good drinks, good company, and a place to stop by.</p>
-        </div>
-      </section>
-
-      <!-- Values -->
-      <section style="margin-top:var(--space-5);" data-reveal>
-        <div class="head"><h2>What we keep close</h2></div>
-        <div class="values">
-          <div class="card"><h3 style="font-size:1.2rem;">Made to order</h3><p style="color:var(--ink-soft);margin-top:0.5rem;">Every cup is built fresh at the window when you order, never pre-made and left sitting out.</p></div>
-          <div class="card"><h3 style="font-size:1.2rem;">Prices for everyday</h3><p style="color:var(--ink-soft);margin-top:0.5rem;">Most drinks are under P 80, so dropping by after class or on the way home stays easy on the pocket.</p></div>
-          <div class="card"><h3 style="font-size:1.2rem;">Here for the neighborhood</h3><p style="color:var(--ink-soft);margin-top:0.5rem;">We open every afternoon at 3, right through 10, for the people who live and pass by Dolores, Capas.</p></div>
-        </div>
-      </section>
-
-      <!-- Gallery (real photos) -->
-      <section style="margin-top:var(--space-5);" data-reveal>
-        <div class="head"><h2>From the shop</h2></div>
-        <div class="gallery">
-          <figure><img src="assets/storefront-night.jpg" alt="Tea-Ta Kopi lit storefront at night" width="600" height="280" /></figure>
-          <figure><img src="assets/menu-board.jpg" alt="Tea-Ta Kopi drink menu board" width="600" height="280" /></figure>
-          <figure><img src="assets/storefront-dusk.png" alt="Tea-Ta Kopi storefront at dusk with the TEA-TA KOPI sign lit against the sunset" width="600" height="280" /></figure>
-        </div>
-      </section>
-
-      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;margin-top:var(--space-4);" data-reveal>
-        <a class="btn btn--ghost" href="menu.html">
-          See the menu
-          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-        <a class="btn btn--accent js-order" href="contact.html#order">
-          Message us to order
-          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </a>
-      </div>
+    <section class="page-intro container"><p class="eyebrow" data-reveal>A neighborhood cafe since 2016</p><h1 data-reveal>Our story</h1><p class="lede" data-reveal>A small place built around good drinks, fair prices, and a warm welcome.</p></section>
+    <div class="about-shell container">
+      <section class="bezel story-panel" data-reveal><div class="bezel__core"><p class="eyebrow">How it started</p><h2>From a little palamig store to Tea-Ta Kopi.</h2><p>Tea-Ta Kopi began in 2016 as a small palamig store in Dolores, Capas. People passing by would stop for a cold drink before continuing on their way. There was no elaborate setup, just something refreshing for a hot afternoon.</p><p>Over time, we added shakes, fries, and siomai. The little store grew into a familiar neighborhood stop, one simple menu item at a time.</p><p>In 2024, that little store became Tea-Ta Kopi. We kept the easygoing spirit and added coffee, milk tea, fruit tea, and more room to sit, slow down, and enjoy a drink together.</p><p>We are still a small café in Dolores. That is the point. Whether you are picking up your usual, meeting a friend, or taking a break after class, we are happy to have you here.</p></div></section>
+      <section class="about-split" data-reveal><div class="about-split__photo"><img src="assets/storefront-night.jpg" alt="Tea-Ta Kopi storefront and seating at night" width="800" height="1000" loading="lazy" /></div><div><p class="eyebrow">The Tea-Ta we know today</p><h2>Good drinks. Good company. No fuss.</h2><p>We make each order fresh at the window and keep the choices clear so it is easy to find something you will like.</p><p>Most drinks are priced for an everyday stop. Our menu is wide enough for the whole group, from a quick iced coffee to a fruity Yakult or a savory siomai snack.</p><a class="btn btn--accent" href="menu.html">Explore the menu <span class="btn__icon" aria-hidden="true">&#8594;</span></a></div></section>
+      <section class="section--tight" data-reveal><p class="eyebrow">What we keep close</p><div class="value-grid"><article class="card value-card"><span class="value-card__number">01</span><h3>Made to order</h3><p>Every cup is built fresh when you order, not left waiting on a shelf.</p></article><article class="card value-card"><span class="value-card__number">02</span><h3>Prices for everyday</h3><p>Fair portions and friendly prices for the quick stop or the regular visit.</p></article><article class="card value-card"><span class="value-card__number">03</span><h3>Here for the neighborhood</h3><p>A familiar place to drop by every afternoon in Dolores, Capas.</p></article></div></section>
+      <section data-reveal><p class="eyebrow">From the shop</p><div class="photo-grid"><figure><img src="assets/storefront-dusk.png" alt="Tea-Ta Kopi storefront at dusk" width="800" height="1000" loading="lazy" /></figure><figure><img src="assets/menu-board.jpg" alt="Tea-Ta Kopi menu board" width="800" height="800" loading="lazy" /></figure><figure><img src="assets/storefront-night.jpg" alt="Tea-Ta Kopi lit up at night" width="800" height="1000" loading="lazy" /></figure></div></section>
+      <div class="page-intro__actions" data-reveal><a class="btn btn--ghost" href="contact.html">Plan a visit <span class="btn__icon" aria-hidden="true">&#8594;</span></a><a class="btn btn--accent js-order" href="menu.html">Start an order <span class="btn__icon" aria-hidden="true">&#8599;</span></a></div>
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="container footer__grid">
-      <div class="footer__brand">
-        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="40" height="40" />
-        <p style="margin-top:0.75rem;color:var(--ink-soft);">Neighborhood coffee, milk tea and snacks in Dolores, Capas, Tarlac. Est. 2024.</p>
-      </div>
-      <div><h3>Pages</h3><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">About</a><a href="contact.html">Visit</a></div>
-      <div><h3>Order</h3><a href="https://www.facebook.com/profile.php?id=61563817495458" target="_blank" rel="noopener">Facebook</a><a class="js-order" href="contact.html#order">Message us to order</a></div>
-    </div>
-    <div class="container footer__bottom"><span>&copy; 2026 Tea-Ta Kopi</span><span>Dolores, Capas, Tarlac</span></div>
-  </footer>
-
-  <script src="js/sound.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/cart.js"></script>
+  <footer class="site-footer"><div class="container footer-grid"><div class="footer-brand"><img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="42" height="42" /><p>Neighborhood coffee, milk tea and snacks in Dolores, Capas, Tarlac.</p></div><div class="footer-column"><h3>Explore</h3><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">Our story</a><a href="contact.html">Visit</a></div><div class="footer-column"><h3>Order</h3><a class="js-order" href="menu.html">Start an order</a><a href="https://www.facebook.com/profile.php?id=61563817495458" target="_blank" rel="noopener">Facebook</a></div></div><div class="container footer-bottom"><span>&copy; 2026 Tea-Ta Kopi</span><span>Dolores, Capas, Tarlac</span></div></footer>
+  <script src="js/main.js"></script><script src="js/cart.js"></script>
 </body>
 </html>

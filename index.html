@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2315110C'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' fill='%23D9744E' transform='rotate(-20 16 16)'/%3E%3Cpath d='M16 7 Q16 16 16 25' stroke='%2315110C' stroke-width='1.6' fill='none'/%3E%3C/svg%3E" />
-  <title>Tea-Ta Kopi - Coffee, Milk Tea & Snacks in Capas, Tarlac</title>
-  <meta name="description" content="Tea-Ta Kopi is a neighborhood cafe in Dolores, Capas, Tarlac, serving coffee, milk tea, shakes and snacks. Open daily 3 PM to 10 PM. Order through Messenger." />
-  <meta name="theme-color" content="#B0431C" />
+  <title>Tea-Ta Kopi | Coffee, milk tea and snacks in Capas</title>
+  <meta name="description" content="Tea-Ta Kopi is a neighborhood cafe in Dolores, Capas, Tarlac. Browse coffee, milk tea, shakes and snacks, then order ahead for pickup." />
+  <meta name="theme-color" content="#a84422" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317110d'/%3E%3Cellipse cx='16' cy='16' rx='7' ry='10' fill='%23e08057' transform='rotate(-20 16 16)'/%3E%3Cpath d='M16 7 Q16 16 16 25' stroke='%2317110d' stroke-width='1.6' fill='none'/%3E%3C/svg%3E" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/style.css" />
@@ -14,194 +14,120 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <!-- ===== NAV (floating glass island) ===== -->
-  <div class="nav-wrap">
-    <nav class="nav" aria-label="Primary">
-      <a class="nav__brand" href="index.html">
-        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="34" height="34" />
+  <div class="site-header-wrap">
+    <header class="site-header">
+      <a class="site-brand" href="index.html" aria-label="Tea-Ta Kopi home">
+        <img src="assets/logo-lineart.png" alt="" width="34" height="34" />
         <span>Tea-Ta Kopi</span>
       </a>
-      <div class="nav__links">
-        <a href="index.html" class="is-active">Home</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="index.html" class="is-active" aria-current="page">Home</a>
         <a href="menu.html">Menu</a>
-        <a href="about.html">About</a>
+        <a href="about.html">Our story</a>
         <a href="contact.html">Visit</a>
-      </div>
-      <div class="nav__right">
-        <a class="btn btn--accent js-order" href="contact.html#order">
-          Message us to order
-          <span class="btn__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </span>
-        </a>
-        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark mode">
-          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn--accent btn--small header-order js-order" href="menu.html">Order now <span class="btn__icon" aria-hidden="true">&#8599;</span></a>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch theme">
+          <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
         </button>
-        <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-overlay"><span></span></button>
-      </div>
-    </nav>
-  </div>
-
-  <!-- Mobile overlay -->
-  <div class="nav__overlay" id="nav-overlay">
-    <a href="index.html">Home</a>
-    <a href="menu.html">Menu</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Visit</a>
-    <a class="btn btn--accent js-order" href="contact.html#order" style="align-self:flex-start;margin-top:1rem;">Message us to order<span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-  </div>
-
-  <main id="main">
-    <!-- ===== HERO ===== -->
-    <header class="hero">
-      <img class="hero__img" src="assets/storefront-night.jpg" alt="Tea-Ta Kopi storefront lit up at night" width="1600" height="900" />
-      <div class="hero__scrim"></div>
-      <div class="container hero__inner">
-        <h1>Your neighborhood cup,<br>every afternoon.</h1>
-        <p class="hero__sub">Coffee, milk tea, shakes and snacks in Dolores, Capas, Tarlac, made for the quick stop or the long sit. Open daily from 3 PM.</p>
-        <div class="hero__cta">
-          <a class="btn btn--accent js-order" href="contact.html#order">
-            Order via Messenger
-            <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          </a>
-          <a class="btn btn--ghost" href="menu.html" style="color:#FCFBF9;border-color:rgba(255,255,255,0.4);">
-            See the menu
-            <span class="btn__icon" aria-hidden="true" style="background:rgba(255,255,255,0.16);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          </a>
-        </div>
-        <p class="hero__hours">Open every day &middot; 3 PM to 10 PM</p>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav"><span></span></button>
       </div>
     </header>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" aria-hidden="true">
+    <a href="index.html" class="is-active" aria-current="page">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="about.html">Our story</a>
+    <a href="contact.html">Visit</a>
+    <a class="btn btn--accent js-order" href="menu.html">Order now <span class="btn__icon" aria-hidden="true">&#8599;</span></a>
+  </nav>
 
-    <!-- ===== BEST SELLERS (gapless bento) ===== -->
-    <section class="section container" aria-labelledby="bs-title">
-      <div class="head" data-reveal>
-        <p class="eyebrow">Crowd favorites</p>
-        <h2 id="bs-title">The ones people come back for</h2>
-      </div>
-      <div class="bento" data-reveal>
-        <div class="bezel bento__cell bento__cell--img">
-          <div class="bezel__core" style="padding:0;overflow:hidden;">
-            <img src="assets/menu-board.jpg" alt="Tea-Ta Kopi drink menu board" width="800" height="800" />
-          </div>
+  <main id="main">
+    <section class="home-hero" aria-labelledby="hero-title">
+      <img class="home-hero__image" src="assets/storefront-night.jpg" alt="Tea-Ta Kopi storefront glowing at night" width="1600" height="900" />
+      <div class="home-hero__content">
+        <p class="eyebrow home-hero__eyebrow">Dolores, Capas · Est. 2024</p>
+        <h1 id="hero-title">Your neighborhood cup, every afternoon.</h1>
+        <p class="home-hero__copy">Coffee, milk tea, shakes and snacks for the quick stop, the catch-up, or the little break in between.</p>
+        <div class="home-hero__actions">
+          <a class="btn btn--accent js-order" href="menu.html">Start an order <span class="btn__icon" aria-hidden="true">&#8599;</span></a>
+          <a class="btn btn--ghost" href="menu.html">Browse the menu <span class="btn__icon" aria-hidden="true">&#8594;</span></a>
         </div>
-        <!-- 4 best-seller cards; star only on genuine best-sellers from the menu -->
-        <article class="card bs">
-          <div class="bs__name">Wintermelon Milk Tea</div>
-          <div class="bs__meta">
-            <span class="bs__price">P 50</span>
-            <svg class="bs__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg>
-          </div>
-        </article>
-        <article class="card bs">
-          <div class="bs__name">Dirty Matcha</div>
-          <div class="bs__meta">
-            <span class="bs__price">P 70</span>
-            <svg class="bs__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg>
-          </div>
-        </article>
-        <article class="card bs">
-          <div class="bs__name">Mango Yakult</div>
-          <div class="bs__meta">
-            <span class="bs__price">P 49</span>
-            <svg class="bs__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg>
-          </div>
-        </article>
-        <article class="card bs">
-          <div class="bs__name">Strawberry Milk</div>
-          <div class="bs__meta">
-            <span class="bs__price">P 80</span>
-            <svg class="bs__star" viewBox="0 0 24 24" fill="currentColor" aria-label="Best seller"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4 2-6.4L3 8.6h6.8z"/></svg>
-          </div>
-        </article>
-        <a class="bezel bento__cell bento__cell--wide" href="menu.html" style="color:#FCFBF9;">
-          <span class="bento__cta"><span class="btn btn--accent">See the full menu
-            <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span></span>
-        </a>
-      </div>
-    </section>
-
-    <!-- ===== STORY teaser (editorial offset) ===== -->
-    <section class="section--lg container" aria-labelledby="story-title">
-      <div class="split">
-        <div class="split__media" data-reveal>
-          <img src="assets/storefront-dusk.png" alt="Tea-Ta Kopi storefront at dusk, the TEA-TA KOPI sign glowing against the sunset" width="800" height="1000" />
-        </div>
-        <div data-reveal>
-          <h2 id="story-title">A small spot that feels like home</h2>
-          <p class="lede" style="margin-top:1rem;">Tea-Ta Kopi began with a simple idea: good drinks at fair prices, in a place where you can slow down in the afternoon.</p>
-          <p style="margin-top:1rem;color:var(--ink-soft);">We keep the menu wide and the portions honest. Whether you grab a wintermelon milk tea on the way home or settle in with a mango yakult after class, you are always welcome here.</p>
-          <a class="btn btn--ghost" href="about.html" style="margin-top:1.5rem;">
-            Our story
-            <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-          </a>
+        <div class="home-hero__meta" aria-label="Cafe hours and order type">
+          <span>Open daily · 3 PM to 10 PM</span>
+          <span>Pickup at the window</span>
         </div>
       </div>
     </section>
 
-    <!-- ===== VISIT snippet ===== -->
+    <section class="section container" aria-labelledby="favorites-title">
+      <div class="section-heading" data-reveal>
+        <div><p class="eyebrow">A good place to start</p><h2 id="favorites-title">The ones people come back for</h2></div>
+        <p>Not sure what to get? These are a few easy favorites. Every cup is made fresh when you order.</p>
+      </div>
+      <div class="favorites-layout" data-reveal>
+        <div class="bezel favorites-photo">
+          <div class="bezel__core"><img src="assets/menu-board.jpg" alt="Tea-Ta Kopi menu board with drinks and prices" width="800" height="800" loading="lazy" /></div>
+        </div>
+        <div class="favorite-grid">
+          <article class="card favorite-card">
+            <div class="favorite-card__top"><h3>Wintermelon Milk Tea</h3><span class="best-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.2 6.6H21l-5.3 4 2 6.4-6-4.4-6 4.4L3 8.6h6.8z"/></svg> Favorite</span></div>
+            <div class="favorite-card__bottom"><span class="price">from P 50</span><a class="btn btn--quiet btn--small" href="menu.html?item=milk-tea-wintermelon">Choose</a></div>
+          </article>
+          <article class="card favorite-card">
+            <div class="favorite-card__top"><h3>Dirty Matcha</h3><span class="best-badge">Coffee + matcha</span></div>
+            <div class="favorite-card__bottom"><span class="price">P 70</span><a class="btn btn--quiet btn--small" href="menu.html?item=iced-coffee-dirty-matcha">Choose</a></div>
+          </article>
+          <article class="card favorite-card">
+            <div class="favorite-card__top"><h3>Mango Yakult</h3><span class="best-badge">Bright + tangy</span></div>
+            <div class="favorite-card__bottom"><span class="price">from P 49</span><a class="btn btn--quiet btn--small" href="menu.html?item=yakult-series-mango-yakult">Choose</a></div>
+          </article>
+          <article class="card favorite-card">
+            <div class="favorite-card__top"><h3>Strawberry Milk</h3><span class="best-badge">Crowd favorite</span></div>
+            <div class="favorite-card__bottom"><span class="price">from P 80</span><a class="btn btn--quiet btn--small" href="menu.html?item=non-coffee-strawberry-milk">Choose</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight container" aria-labelledby="story-title">
+      <div class="story-grid">
+        <div class="story-photo" data-reveal><img src="assets/storefront-dusk.png" alt="Tea-Ta Kopi storefront at dusk" width="800" height="1000" loading="lazy" /></div>
+        <div class="story-copy" data-reveal>
+          <p class="eyebrow">A little place for a little break</p>
+          <h2 id="story-title">Started small. Still feels like home.</h2>
+          <p>Tea-Ta Kopi began as a small palamig store in Dolores in 2016. Today, it is still a neighborhood café built around good drinks, fair prices, and a warm welcome.</p>
+          <a class="btn btn--ghost" href="about.html">Read our story <span class="btn__icon" aria-hidden="true">&#8594;</span></a>
+        </div>
+      </div>
+    </section>
+
     <section class="section container" aria-labelledby="visit-title">
-      <div class="head" data-reveal>
-        <h2 id="visit-title">Find us in Dolores, Capas</h2>
-      </div>
-      <div class="visit" data-reveal>
-        <div class="visit__map">
-          <iframe title="Map to Tea-Ta Kopi, Dolores, Capas, Tarlac"
-            src="https://www.google.com/maps?q=TEA-TA+KOPI@15.3693105,120.5902725&z=17&output=embed"
-            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-        <div class="bezel">
-          <div class="bezel__core">
-            <div class="info-row">
-              <span class="info-row__k">Address</span>
-              <span class="info-row__v">Dolores, Capas, Tarlac</span>
-            </div>
-            <div class="info-row">
-              <span class="info-row__k">Hours</span>
-              <span class="info-row__v">Every day, 3 PM to 10 PM</span>
-            </div>
-            <div class="info-row">
-              <span class="info-row__k">Order</span>
-              <span class="info-row__v">Message us on Messenger</span>
-            </div>
-            <a class="btn btn--ghost" href="menu.html" style="margin-top:1.25rem;width:100%;justify-content:center;">
-              See the menu
-              <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-            </a>
-          </div>
-        </div>
+      <div class="section-heading" data-reveal><div><p class="eyebrow">Drop by this afternoon</p><h2 id="visit-title">Find us in Dolores</h2></div><p>Order ahead, then pick up at the window when your cup is ready.</p></div>
+      <div class="visit-preview" data-reveal>
+        <div class="map-frame"><iframe title="Map to Tea-Ta Kopi in Dolores, Capas, Tarlac" src="https://www.google.com/maps?q=TEA-TA+KOPI@15.3693105,120.5902725&z=17&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        <div class="bezel"><div class="bezel__core">
+          <dl class="info-list">
+            <div class="info-row"><dt>Address</dt><dd>Dolores, Capas, Tarlac</dd></div>
+            <div class="info-row"><dt>Hours</dt><dd>Every day, 3 PM to 10 PM</dd></div>
+            <div class="info-row"><dt>Order</dt><dd>Online pickup via Messenger</dd></div>
+          </dl>
+          <a class="btn btn--accent btn--block" href="contact.html">Plan your visit <span class="btn__icon" aria-hidden="true">&#8594;</span></a>
+        </div></div>
       </div>
     </section>
   </main>
 
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="container footer__grid">
-      <div class="footer__brand">
-        <img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="40" height="40" />
-        <p style="margin-top:0.75rem;color:var(--ink-soft);">Neighborhood coffee, milk tea and snacks in Dolores, Capas, Tarlac. Est. 2024.</p>
-      </div>
-      <div>
-        <h3>Pages</h3>
-        <a href="index.html">Home</a>
-        <a href="menu.html">Menu</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Visit</a>
-      </div>
-      <div>
-        <h3>Order</h3>
-        <a href="https://www.facebook.com/profile.php?id=61563817495458" target="_blank" rel="noopener">Facebook</a>
-        <a class="js-order" href="contact.html#order">Message us to order</a>
-      </div>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand"><img src="assets/logo-lineart.png" alt="Tea-Ta Kopi logo" width="42" height="42" /><p>Neighborhood coffee, milk tea and snacks in Dolores, Capas, Tarlac.</p></div>
+      <div class="footer-column"><h3>Explore</h3><a href="index.html">Home</a><a href="menu.html">Menu</a><a href="about.html">Our story</a><a href="contact.html">Visit</a></div>
+      <div class="footer-column"><h3>Order</h3><a class="js-order" href="menu.html">Start an order</a><a href="https://www.facebook.com/profile.php?id=61563817495458" target="_blank" rel="noopener">Facebook</a></div>
     </div>
-    <div class="container footer__bottom">
-      <span>&copy; 2026 Tea-Ta Kopi</span>
-      <span>Dolores, Capas, Tarlac</span>
-    </div>
+    <div class="container footer-bottom"><span>&copy; 2026 Tea-Ta Kopi</span><span>Dolores, Capas, Tarlac</span></div>
   </footer>
 
-  <script src="js/sound.js"></script>
   <script src="js/main.js"></script>
   <script src="js/cart.js"></script>
 </body>

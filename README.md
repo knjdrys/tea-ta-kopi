@@ -1,81 +1,68 @@
-# Tea-Ta Kopi - Website Handoff
+# Tea-Ta Kopi
 
-A 4-page static cafe website that actually takes orders. Mobile-first, light +
-dark mode, installable on phone (PWA), works offline, no build step.
-"Tea-Ta" means "A Sip of Tita's Warm Embrace."
+A mobile-first static café ordering site for Tea-Ta Kopi in Dolores, Capas, Tarlac. It is intentionally dependency-free: no build step, no account required, and no payment credentials are collected in the browser.
 
-## What's new in this version
-- **Real order flow** - Tap any drink on the menu (pick a size where it has
-  sizes), and it builds a live cart with a running total. The cart follows you
-  across every page and survives reloads. "Send order" opens your Facebook
-  Messenger with the order already typed out, so you just hit send.
-- **Installable app (PWA)** - Add to Home Screen on a phone and it opens like a
-  native app (full screen, no browser bar). Works offline once visited.
-- **Verified on real phones** - 48 automated checks: add-to-cart, total, remove
-  item, cart persistence, Messenger prefill, drawer, PWA install + offline
-  reload. 0 JS errors, 0 layout overflow at 320 / 390 / 1280 px.
+## Customer flow
 
-## Files
-- index.html   - Home (hero, best sellers, story, visit)
-- menu.html    - Full menu with tap-to-order buttons
-- about.html   - Story + logo meaning + gallery
-- contact.html - Visit info, map, order
-- manifest.webmanifest - PWA metadata (name, icons, colors)
-- service-worker.js    - offline cache
-- css/tokens.css - colors, fonts, light/dark theme (one place for brand color)
-- css/style.css  - nav, footer, buttons, cards, motion
-- css/pages.css  - page sections + cart drawer + FAB
-- js/main.js     - theme toggle, mobile menu, scroll reveal, SW register
-- js/cart.js     - order cart (add, total, drawer, Messenger prefill)
-- icons/         - app icons (192, 512, maskable)
-- assets/        - storefront-night.jpg, menu-board.jpg, logo-lineart.png
-- fonts/         - self-hosted Sora + Space Mono (no internet needed)
+1. Browse the menu with search and category filters.
+2. Quick-add a standard item, or open **Customize** for size, sweetness, ice, extras, quantity, and a note.
+3. Review the saved cart from any page. Cart data survives navigation and reloads in `localStorage`.
+4. Add pickup details on `order.html`.
+5. Send the prepared order to Tea-Ta Kopi through Messenger. The café confirms availability, final total, payment, and pickup timing there.
+6. The confirmation view keeps a local order reference and a clear awaiting-confirmation timeline. It does not claim that a payment or café acceptance happened.
 
-## How to edit (no coding needed)
+The site supports pickup only because no verified delivery or payment integration is configured in this repository.
 
-### Change the order link (Facebook Messenger)
-Open js/cart.js, find `var MESSENGER_ID = "61563817495458";` and change it to
-your Facebook page id. That one change updates every "Send order" button.
-(The bare `m.me/ID` link also appears in contact.html and the footers - change
-those too if you prefer the direct link style.)
+## Routes and files
 
-### Add or change a menu item
-Open menu.html. Each tappable item looks like one of these:
-  <button class="add-btn" data-name="Extra Pearl" data-size="" data-price="10" data-cat="Add Ons">+ Add</button>
-  <button class="size-btn" data-name="Wintermelon" data-size="M" data-price="50" data-cat="Milk Tea">M·P50</button>
-  <button class="size-btn" data-name="Wintermelon" data-size="L" data-price="60" data-cat="Milk Tea">L·P60</button>
-Copy a row, change the name/price, keep the data-* attributes. The cart reads
-those attributes, so no other code needs changing.
+- `index.html` - welcome page, favorites, story teaser, and visit preview
+- `menu.html` - searchable, filterable catalog with quick-add and customization
+- `order.html` - order review, pickup details, validation, Messenger handoff, and confirmation state
+- `about.html` - the Tea-Ta Kopi story, values, and real shop photos
+- `contact.html` - hours, location, map, and pickup guidance
+- `js/menu-data.js` - single source of truth for menu items, sizes, prices, availability, and descriptions
+- `js/menu.js` - catalog rendering, search, filters, and product entry points
+- `js/cart.js` - accessible cart drawer, product customizer, local persistence, quantity controls, and Messenger link generation
+- `js/order.js` - checkout validation, local order reference, and confirmation state
+- `js/main.js` - theme preference, mobile navigation, reveal motion, and offline notice
+- `css/tokens.css` - shared color, type, spacing, radius, shadow, and motion tokens
+- `css/style.css` - shared navigation, buttons, forms, footer, and primitives
+- `css/pages.css` - page layouts, catalog cards, cart drawer, customizer, and checkout styling
+- `service-worker.js` - offline shell and cache versioning
 
-### Change the hours
-Open contact.html, find `<span class="info-row__v">Every day, 3 PM to 10 PM</span>`
-and edit. Also update the visit section on index.html.
+## Updating menu data
 
-### Swap a photo
-Drop your new image in assets/ with the same filename used in the HTML, or
-change the src="assets/NAME.jpg". Keep names simple.
+Edit `js/menu-data.js`. Each item has a category, one or more sizes, a price, and an `available` flag. Set `available: false` to show a sold-out state without removing the item from the catalog. Keep prices as numbers.
 
-### Change brand color
-Open css/tokens.css, change --accent (clay/terracotta). Keep it dark enough
-that white text stays readable. All pages update automatically.
+Example:
 
-## Deploy (free, no coding)
-Option A - Netlify Drop (easiest):
-1. Go to https://app.netlify.com/drop
-2. Drag the whole tea-ta-kopi folder onto the page
-3. You get a free *.netlify.app link. Done.
+```js
+drink("New drink", "Milk Tea", [
+  { label: "Medium", price: 55 },
+  { label: "Large", price: 65 }
+], { bestSeller: true });
+```
 
-Option B - GitHub Pages:
-1. Make a GitHub repo, upload all these files
-2. Settings > Pages > deploy from main branch / root
-3. Free *.github.io link
+If a size, price, or modifier is not offered in-store, do not add it to the data. The café still confirms every order in Messenger.
 
-Optional custom domain (teatakopi.com) is a paid step at your domain registrar
-and the host's settings. Not required to go live.
+## Updating café details
 
-## Notes
-- The site works with no internet (fonts and images are local).
-- Theme choice is remembered per visitor.
-- After the first visit, the site loads offline (service worker cache).
-- One photo slot in about.html is still a placeholder (gallery's third image).
-  Replace it with a real drink/store photo when ready.
+The address, hours, and Facebook page link appear in the page HTML and metadata. Search for `Dolores, Capas, Tarlac`, `3 PM to 10 PM`, or the Messenger ID `61563817495458` when the business details change.
+
+The map uses a Google Maps embed and may not load offline. The address and hours remain visible without it.
+
+## Local testing
+
+Serve the repository over HTTP so the service worker and Messenger flow behave like deployment:
+
+```bash
+python3 -m http.server 8410 --bind 0.0.0.0
+```
+
+Then open `http://localhost:8410/`. Test at 320px, 390px, tablet, and desktop widths, in light and dark themes. Clear `ttk-cart` and `ttk-last-order` in browser storage to reset an order session.
+
+## Deployment
+
+This is a static site and can be deployed to Netlify Drop, GitHub Pages, Cloudflare Pages, or any static host. Keep the site served over HTTPS in production so the service worker and external Messenger links work reliably.
+
+Before launch, replace any business details that have changed, confirm the exact map pin, verify the Facebook page link, and test the full handoff on a real phone.

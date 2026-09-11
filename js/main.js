@@ -1,152 +1,130 @@
-/* Tea-Ta Kopi - behavior (vanilla, no deps)
-   - theme toggle (saved > prefers-color-scheme), persisted
-   - mobile nav (hamburger morph handled in CSS via aria-expanded)
-   - scroll reveal via IntersectionObserver (NEVER window scroll listener)
-   - reduced-motion: reveal instantly
-*/
+/* Tea-Ta Kopi shared behavior: theme, navigation, reveal, and connectivity notice. */
 (function () {
   "use strict";
 
   var root = document.documentElement;
-
-  /* ---- Theme ---- */
+  var storageKey = "ttk-theme";
   var saved = null;
-  try { saved = localStorage.getItem("ttk-theme"); } catch (e) {}
-  if (!saved) {
-    saved = window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  try { saved = localStorage.getItem(storageKey); } catch (error) {}
+  var preferred = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  setTheme(saved === "dark" || saved === "light" ? saved : preferred);
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    var toggle = document.getElementById("theme-toggle");
+    if (!toggle) return;
+    var dark = theme === "dark";
+    toggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+    toggle.setAttribute("title", dark ? "Switch to light mode" : "Switch to dark mode");
+    var icon = toggle.querySelector(".theme-icon");
+    if (icon) {
+      icon.innerHTML = dark
+        ? '<path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.5 8.5 0 1 0 20.5 15.2Z"/>'
+        : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/>';
+    }
   }
-  root.setAttribute("data-theme", saved);
 
   var toggle = document.getElementById("theme-toggle");
   if (toggle) {
     toggle.addEventListener("click", function () {
       var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      try { localStorage.setItem("ttk-theme", next); } catch (e) {}
+      setTheme(next);
+      try { localStorage.setItem(storageKey, next); } catch (error) {}
     });
   }
 
-  /* ---- Mobile nav ---- */
+  /* Mobile navigation uses real aria state and restores focus on close. */
   var navToggle = document.getElementById("nav-toggle");
-  var overlay = document.getElementById("nav-overlay");
-  if (navToggle && overlay) {
+  var mobileNav = document.getElementById("mobile-nav");
+  var lastNavFocus = null;
+  function closeNav() {
+    if (!mobileNav || !navToggle) return;
+    mobileNav.classList.remove("is-open");
+    mobileNav.setAttribute("aria-hidden", "true");
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.setAttribute("aria-label", "Open navigation");
+    document.body.style.overflow = "";
+    if (lastNavFocus && typeof lastNavFocus.focus === "function") lastNavFocus.focus();
+  }
+  function openNav() {
+    if (!mobileNav || !navToggle) return;
+    lastNavFocus = document.activeElement;
+    mobileNav.classList.add("is-open");
+    mobileNav.setAttribute("aria-hidden", "false");
+    navToggle.setAttribute("aria-expanded", "true");
+    navToggle.setAttribute("aria-label", "Close navigation");
+    document.body.style.overflow = "hidden";
+    var first = mobileNav.querySelector("a");
+    if (first) first.focus();
+  }
+  if (navToggle && mobileNav) {
     navToggle.addEventListener("click", function () {
-      var open = overlay.classList.toggle("open");
-      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
-      navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      if (mobileNav.classList.contains("is-open")) closeNav(); else openNav();
     });
-    // Close overlay when a link is tapped
-    overlay.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        overlay.classList.remove("open");
-        navToggle.setAttribute("aria-expanded", "false");
-        navToggle.setAttribute("aria-label", "Open menu");
-      });
+    mobileNav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () { closeNav(); });
     });
-    // Tap the dimmed backdrop (the overlay surface itself) to close
-    overlay.addEventListener("click", function (e) {
-      if (e.target === overlay) {
-        overlay.classList.remove("open");
-        navToggle.setAttribute("aria-expanded", "false");
-        navToggle.setAttribute("aria-label", "Open menu");
+    document.addEventListener("keydown", function (event) {
+      if (!mobileNav.classList.contains("is-open")) return;
+      if (event.key === "Escape") { closeNav(); return; }
+      if (event.key === "Tab") {
+        var focusable = mobileNav.querySelectorAll('a[href], button:not([disabled])');
+        if (!focusable.length) return;
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }
     });
   }
 
-  /* ---- Scroll reveal (IntersectionObserver) ---- */
+  /* Content is visible even when an observer is unavailable or slow. */
   var reveals = document.querySelectorAll("[data-reveal]");
-  var reduce = window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  // Staggered item/card entrance: tag .item / .bs with an index for cascade.
-  var staggered = document.querySelectorAll(".item, .bs");
-  staggered.forEach(function (el, i) {
-    el.classList.add("reveal-item");
-    el.style.setProperty("--i", i % 12); // cap stagger so long lists don't lag
-  });
-
-  // Safety net: if JS/observer is slow, never leave content stuck invisible.
-  setTimeout(function () {
-    reveals.forEach(function (el) { el.classList.add("in"); });
-    staggered.forEach(function (el) { el.classList.add("in"); });
-  }, 1200);
-
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduce || !("IntersectionObserver" in window)) {
-    reveals.forEach(function (el) { el.classList.add("in"); });
-    staggered.forEach(function (el) { el.classList.add("in"); });
+    reveals.forEach(function (element) { element.classList.add("is-visible"); });
   } else {
-    var io = new IntersectionObserver(function (entries) {
+    var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          entry.target.classList.add("in");
-          io.unobserve(entry.target);
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
-    reveals.forEach(function (el) { io.observe(el); });
-    staggered.forEach(function (el) { io.observe(el); });
+    }, { threshold: 0.12, rootMargin: "0px 0px -5% 0px" });
+    reveals.forEach(function (element) { observer.observe(element); });
+    window.setTimeout(function () { reveals.forEach(function (element) { element.classList.add("is-visible"); }); }, 1400);
   }
 
-  /* ---- Body scroll lock (used by cart drawer) ---- */
-  window.__ttkLockScroll = function (on) {
-    document.body.style.overflow = on ? "hidden" : "";
-  };
-
-  /* ---- Menu category filter (menu.html only) ---- */
-  var filterBar = document.querySelector(".menu-filters");
-  if (filterBar) {
-    var pills = filterBar.querySelectorAll(".filter-pill");
-    var cats = document.querySelectorAll(".cat[data-category]");
-    filterBar.addEventListener("click", function (e) {
-      var pill = e.target.closest(".filter-pill");
-      if (!pill) return;
-      pills.forEach(function (p) {
-        var on = p === pill;
-        p.classList.toggle("is-active", on);
-        p.setAttribute("aria-pressed", on ? "true" : "false");
-      });
-      var filter = pill.getAttribute("data-filter");
-      cats.forEach(function (cat) {
-        var match = filter === "all" || cat.getAttribute("data-category") === filter;
-        cat.style.display = match ? "" : "none";
-        if (match) cat.classList.add("in"); // reveal even if not yet scrolled into view
-      });
-    });
-
-    /* Scroll cue: show only if the strip overflows; hide on first swipe / at end */
-    var track = filterBar.querySelector(".menu-filters__track");
-    var hint = filterBar.querySelector(".menu-filters__hint");
-    function syncScrollCue() {
-      if (!track || !hint) return;
-      var overflow = track.scrollWidth - track.clientWidth > 8;
-      filterBar.classList.toggle("can-scroll", overflow);
-      if (!overflow) hint.classList.add("is-hidden");
-    }
-    function hideCue() { if (hint) hint.classList.add("is-hidden"); }
-    if (track) {
-      track.addEventListener("scroll", function () {
-        hideCue();
-        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 8) hideCue();
-      }, { passive: true });
-      window.addEventListener("resize", syncScrollCue);
-      syncScrollCue();
+  /* An honest offline cue is more useful than letting a customer wonder if an order sent. */
+  function syncOnlineState() {
+    var existing = document.getElementById("network-notice");
+    if (!navigator.onLine) {
+      if (!existing) {
+        existing = document.createElement("div");
+        existing.id = "network-notice";
+        existing.className = "network-notice";
+        existing.setAttribute("role", "status");
+        existing.textContent = "You are offline. Your cart is saved, but Messenger needs a connection to send the order.";
+        document.body.insertBefore(existing, document.body.firstChild);
+      }
+    } else if (existing) {
+      existing.remove();
     }
   }
+  window.addEventListener("online", syncOnlineState);
+  window.addEventListener("offline", syncOnlineState);
+  syncOnlineState();
 
-  /* ---- Tactile tick on UI taps (sound is always on, no mute control) ---- */
-  document.addEventListener("click", function (e) {
-    if (!window.__ttkSound) return;
-    var el = e.target.closest("a, button");
-    if (!el) return;
-    if (el.closest("#cart-drawer") || el.classList.contains("add-btn") || el.classList.contains("size-btn")) return; // these have their own sound
-    window.__ttkSound.tick();
-  });
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
-      navigator.serviceWorker.register("service-worker.js").catch(function (e) {
-        /* registration failures are non-fatal; site still works online */
+      navigator.serviceWorker.register("service-worker.js").catch(function () {
+        /* The app remains usable online if a browser blocks service workers. */
       });
     });
   }
+
+  window.__ttkLockScroll = function (locked) {
+    document.body.style.overflow = locked ? "hidden" : "";
+  };
 })();
